@@ -1,34 +1,30 @@
-import Versions from './components/Versions'
-import electronLogo from './assets/electron.svg'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Login from './components/login';
+import AdminMain from './components/Admin/main';
+import KasirMain from './components/Kasir/main';
+
+import OrderList from './components/Pengiriman/OrderList';
+import CreateOrder from './components/Pengiriman/CreateOrder';
+import KirimOrder from './components/Pengiriman/KirimOrder';
 
 function App() {
-  const ipcHandle = () => window.electron.ipcRenderer.send('ping')
-
   return (
-    <>
-      <img alt="logo" className="logo" src={electronLogo} />
-      <div className="creator">Powered by electron-vite</div>
-      <div className="text">
-        Build an Electron app with <span className="react">React</span>
-      </div>
-      <p className="tip">
-        Please try pressing <code>F12</code> to open the devTool
-      </p>
-      <div className="actions">
-        <div className="action">
-          <a href="https://electron-vite.org/" target="_blank" rel="noreferrer">
-            Documentation
-          </a>
-        </div>
-        <div className="action">
-          <a target="_blank" rel="noreferrer" onClick={ipcHandle}>
-            Send IPC
-          </a>
-        </div>
-      </div>
-      <Versions></Versions>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/admin" element={<AdminMain />} />
+        <Route path="/kasir" element={<KasirMain />} />
+
+        {/* Redirect jika hanya buka /pengiriman */}
+        <Route path="/pengiriman" element={<Navigate to="/pengiriman/order" replace />} />
+
+        {/* Pengiriman routes */}
+        <Route path="/pengiriman/order" element={<OrderList />} />
+        <Route path="/pengiriman/create" element={<CreateOrder />} />
+        <Route path="/pengiriman/kirim" element={<KirimOrder />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

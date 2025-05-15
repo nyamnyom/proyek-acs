@@ -1,12 +1,27 @@
-import { contextBridge } from 'electron'
+import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import { createOrder } from '../main/model'
 
 // Custom APIs for renderer
-const api = {}
+const api = {
+  loginUser: (username, password) => ipcRenderer.invoke('login-user', username, password),
 
-// Use `contextBridge` APIs to expose Electron APIs to
-// renderer only if context isolation is enabled, otherwise
-// just add to the DOM global.
+  // Admin
+
+
+
+  //kasir
+
+
+
+
+  // Pengiriman
+  getOrder: () => ipcRenderer.invoke('getOrder'),
+  getBarang: () => ipcRenderer.invoke('getBarang'),
+  createOrder: (namaPembeli, total, keranjang) => ipcRenderer.invoke('createOrder', { namaPembeli, total, keranjang }),
+}
+
+// Expose API
 if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)

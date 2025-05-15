@@ -2,6 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import loginUser ,{  createOrder, getBarang, getOrder } from './model.js';
 
 function createWindow() {
   // Create the browser window.
@@ -60,10 +61,34 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
 })
+// PENGISIAN HANDLER
+ipcMain.handle('login-user', async (event, username, password) => {
+  try {
+    const result = await loginUser(username, password);
+    return result;  // objek user { username, status } atau null
+  } catch (error) {
+    console.error(error);
+    return null; // atau kirim pesan error sesuai kebutuhan
+  }
+});
 
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
+// ADMIN
+
+// KASIR
+
+
+// PENGIRIMAN 
+ipcMain.handle('getOrder', getOrder)
+ipcMain.handle('getBarang', getBarang)
+ipcMain.handle('createOrder', async (event, { namaPembeli, total, keranjang }) => {
+  try {
+    const orderId = await createOrder(namaPembeli, total, keranjang);
+    return { success: true, orderId };
+  } catch (err) {
+    return { success: false, message: err.message };
+  }
+});
+
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
