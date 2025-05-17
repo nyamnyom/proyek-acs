@@ -64,17 +64,17 @@ DELIMITER $$
 CREATE OR REPLACE FUNCTION generate_order_id() RETURNS VARCHAR(12)
 DETERMINISTIC
 BEGIN
-  DECLARE yyyymmdd VARCHAR(8);
+  DECLARE yymmdd VARCHAR(8);
   DECLARE counter INT DEFAULT 0;
   DECLARE order_id VARCHAR(12);
 
-  SET yyyymmdd = DATE_FORMAT(NOW(), '%Y%m%d');
+  SET yymmdd = DATE_FORMAT(NOW(), '%y%m%d');
 
   SELECT COUNT(*) + 1 INTO counter
   FROM `order`
   WHERE DATE(created_at) = CURDATE();
 
-  SET order_id = CONCAT(yyyymmdd, LPAD(counter, 3, '0'));
+  SET order_id = CONCAT(yymmdd, LPAD(counter, 3, '0'));
 
   RETURN order_id;
 END$$
@@ -104,7 +104,8 @@ BEGIN
   SET orderId = generate_order_id();
 
   -- Insert data utama order
-  INSERT INTO `order` (id, harga_total, nama_pembeli) VALUES (orderId, p_total, p_nama_pembeli);
+  INSERT INTO `order` (id, harga_total, nama_pembeli) 
+  VALUES (orderId, p_total, p_nama_pembeli);
 
   SET items_length = JSON_LENGTH(p_json_items);
 
@@ -112,14 +113,18 @@ BEGIN
     SET item_id = JSON_EXTRACT(p_json_items, CONCAT('$[', i, '].id'));
     SET item_qty = JSON_EXTRACT(p_json_items, CONCAT('$[', i, '].qty'));
 
-    -- Ambil nama dan harga barang dari tabel barang berdasarkan item_id
-    SELECT nama, harga INTO item_nama, item_harga FROM barang WHERE id = item_id;
+    -- Ambil nama dan harga barang dari tabel barang
+    SELECT nama_barang, harga INTO item_nama, item_harga 
+    FROM barang WHERE id_barang = item_id;
 
     SET item_total = item_harga * item_qty;
 
     -- Masukkan detail order
     INSERT INTO order_detail (id_order, nama_barang, harga_barang, jumlah_barang, total_harga)
     VALUES (orderId, item_nama, item_harga, item_qty, item_total);
+
+    -- Kurangi stok barang
+    UPDATE barang SET stok = stok - item_qty WHERE id_barang = item_id;
 
     SET i = i + 1;
   END WHILE;
@@ -130,7 +135,28 @@ END$$
 DELIMITER ;
 
 
+DELIMITER $$
 
+CREATE PROCEDURE GetPendingOrders()
+BEGIN
+  SELECT id, nama_pembeli, harga_total, STATUS, created_at
+  FROM `order`
+  WHERE STATUS = 'belum';
+END $$
+
+DELIMITER ;
+
+DELIMITER //
+CREATE OR REPLACE PROCEDURE UpdateOrderStatus(IN orderId VARCHAR(20), IN newStatus VARCHAR(20))
+BEGIN
+  UPDATE `order`
+  SET STATUS = newStatus
+  WHERE id = orderId;
+END //
+DELIMITER ;
+
+
+CALL UpdateOrderStatus ('250515007', 'terkirim')
 
 
 

@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import loginUser ,{  createOrder, getBarang, getOrder } from './model.js';
+import loginUser ,{  createOrder, getBarang, getOrder, getPendingOrders, updateOrderStatus} from './model.js';
 
 function createWindow() {
   // Create the browser window.
@@ -88,6 +88,21 @@ ipcMain.handle('createOrder', async (event, { namaPembeli, total, keranjang }) =
     return { success: false, message: err.message };
   }
 });
+ipcMain.handle('get-pending-orders', async () => {
+  return await getPendingOrders();
+});
+
+// ✅ Handler untuk update status order
+ipcMain.handle('update-order-status', async (event, id, status) => {
+  try {
+    await updateOrderStatus(id, status);
+    return { success: true };
+  } catch (error) {
+    console.error('Error updating order status:', error);
+    return { success: false, error: error.message };
+  }
+});
+
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {

@@ -74,3 +74,13 @@ export async function createOrder({ namaPembeli, hargaTotal, keranjang }) {
   }
 }
 
+export async function getPendingOrders() {
+  const [[result, meta], field] = await pool.query('CALL GetPendingOrders()');
+  return result; // hasil CALL prosedur ada di rows[0]
+}
+
+// Update status satu order
+export async function updateOrderStatus(id, status) {
+  await pool.query('CALL UpdateOrderStatus(?, ?)', [id, status]);
+  return { success: true };
+}
