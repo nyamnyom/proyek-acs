@@ -1,13 +1,14 @@
+DROP DATABASE IF EXISTS `proyek-acs`;
 CREATE DATABASE IF NOT EXISTS `proyek-acs`;
 USE `proyek-acs`;
 
 -- TABEL USER
 CREATE TABLE IF NOT EXISTS USER (
   username VARCHAR(50) PRIMARY KEY,
-  PASSWORD VARCHAR(100) NOT NULL,
-  STATUS ENUM('Admin', 'Kasir', 'Pengiriman') NOT NULL
+  `password` VARCHAR(100) NOT NULL,
+  `status` ENUM('Admin', 'Kasir', 'Pengiriman') NOT NULL
 );
-INSERT INTO USER (username, PASSWORD, STATUS) VALUES
+INSERT INTO USER (username, `password`, `status`) VALUES
 ('admin', '123', 'Admin'),
 ('kasir', '123', 'Kasir'),
 ('pengirim', '123', 'Pengiriman');
@@ -54,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `order` (
   id VARCHAR(12) PRIMARY KEY,
   harga_total DECIMAL(10,2) NOT NULL,
   nama_pembeli VARCHAR(100) NOT NULL,
-  STATUS ENUM('terkirim', 'belum') NOT NULL DEFAULT 'belum',
+  `status` ENUM('terkirim', 'belum') NOT NULL DEFAULT 'belum',
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );

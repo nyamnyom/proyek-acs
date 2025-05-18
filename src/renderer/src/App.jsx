@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './components/login';
+import Login from './components/Login';
 import AdminMain from './components/Admin/main';
 import KasirMain from './components/Kasir/main';
 
