@@ -5,7 +5,7 @@ USE `proyek-acs`;
 -- TABEL USER
 CREATE TABLE IF NOT EXISTS USER (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  username VARCHAR(50) PRIMARY KEY,
+  username VARCHAR(50),
   `password` VARCHAR(100) NOT NULL,
   `status` ENUM('Admin', 'Kasir', 'Pengiriman') NOT NULL
 );

@@ -29,6 +29,22 @@ export async function getUser(){
     return result;
 }
 
+export async function insertUser(event, username, password, status) {
+  try {
+    const [rows, metadata] = await pool.query("CALL insert_user(?, ?, ?)", [
+      username, 
+      password, 
+      status
+    ]);
+    return {
+      success: true,
+      message: "User added successfully",
+    };
+  } catch (error) {
+    return { success: false, message: error.message };
+  }
+}
+
 
 // Kasir
 

@@ -8,7 +8,8 @@ const api = {
 
   // Admin
   getUser: () => ipcRenderer.invoke('getUser'),
-
+  insertUser: (username, password, status) =>
+  ipcRenderer.invoke("insertUser", username, password, status),
 
   //kasir
 

@@ -18,7 +18,14 @@ import { DataGrid } from '@mui/x-data-grid';
 
 
 export default function user(props){
+    //Data Tabel
     const [users, setUsers] = useState([]);
+
+    //Data Form
+    const [id, setId] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [status, setStatus] = useState("");
 
     useEffect(() => {
       fetchUserData();
@@ -28,6 +35,7 @@ export default function user(props){
         try {
           const data = await window.api.getUser();
           setUsers(data);
+          console.log(data)
         } catch (err) {
           console.error(err);
         }
@@ -35,13 +43,61 @@ export default function user(props){
 
     function handleToEdit(item) {
         console.log(item)
-        props.setPage("edit_user");
+        setId(item.id)
+        setUsername(item.username)
+        setPassword(item.password)
+        setStatus(item.status)
     }
 
     function handleDelete(item) {
       console.log(item)
 
     }
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        if (id == "") {
+            const result = await window.api.insertUser(
+              username,
+              password,
+              status,
+            );
+      
+            if (result.success) {
+              alert("User added successfully");
+              setId("");
+              setUsername('');
+              setPassword('');
+              setStatus('');
+              fetchUserData();
+            } else {
+              alert(`Error: ${result.message}`);
+            }
+        } else {
+            const result = await window.api.editUser(
+              id,
+              username,
+              password,
+              status,
+            );
+            if (result.success) {
+              alert("User edited ");
+              setId("");
+              setUsername('');
+              setPassword('');
+              setStatus('');
+              fetchUserData();
+            } else {
+              setId("");
+              setUsername('');
+              setPassword('');
+              setStatus('');
+              fetchUserData();
+              alert(`Error: ${result.message}`);
+            }
+        } 
+    };
 
     const userColumns = [
         { field: "id", headerName: "User ID", flex: 1 },
@@ -58,7 +114,7 @@ export default function user(props){
                 variant="contained"
                 color="primary"
                 size="small"
-                onClick={() => handleToEdit((params.row.id) -1)}
+                onClick={() => handleToEdit((params.row))}
               >
                 Edit
               </Button>
@@ -66,7 +122,7 @@ export default function user(props){
                 variant="contained"
                 color="error"
                 size="small"
-                onClick={() => handleDelete((params.row.id) -1)}
+                onClick={() => handleDelete((params.row.id) )}
               >
                 Delete
               </Button>
@@ -93,6 +149,83 @@ export default function user(props){
                 }}
               />
             </Box>
+
+            {/* Section: Form Tambah Barang */}
+            <Paper elevation={3} sx={{ p: 3, width:'50%', mt: 5}}>
+                <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                    <Grid item xs={12} >
+                        <TextField
+                            sx={{ display: 'none' }}
+                            fullWidth
+                            value={id}
+                            onChange={(e) => setId(e.target.value)}
+                            size="small"
+                        />
+                    </Grid>
+                    <Grid item xs={12} >
+                        <TextField
+                            fullWidth
+                            required
+                            label="Username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            size="small"
+                        />
+                    </Grid>
+                    <Grid item xs={12} >
+                        <TextField
+                            fullWidth
+                            required
+                            label="Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            size="small"
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <FormControl fullWidth size="small">
+                        <InputLabel id="status-select">Status</InputLabel>
+                        <Select
+                            labelId="status-select"
+                            value={status}
+                            label="Status"
+                            required
+                            onChange={(e) => setStatus(e.target.value)}
+                        >
+                            <MenuItem value="Admin">Admin</MenuItem>
+                            <MenuItem value="Kasir">Kasir</MenuItem>
+                            <MenuItem value="Pengiriman">Pengiriman</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            fullWidth
+                            disabled={!username || !password || !status}
+                        >
+                            {id ? "Save" : "Add"}
+                        </Button>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <Button
+                            variant="outlined"
+                            fullWidth
+                            onClick={() => {
+                                setId('');
+                                setUsername('');
+                                setPassword('');
+                                setStatus('');
+                            }}
+                        >
+                            Clear
+                        </Button>
+                    </Grid>                      
+                </Box>
+            </Paper>
+
         </Container>
     )
 }

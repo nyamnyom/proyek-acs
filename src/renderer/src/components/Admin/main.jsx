@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
-import { Box, Drawer, List, ListItemButton, ListItemText, Typography, Toolbar, AppBar } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { Box, Button, Drawer, List, ListItemButton, ListItemText, Typography, Toolbar, AppBar } from '@mui/material';
 import User from "./user_page/User";
-import editUser from "./user_page/edit_user";
 
 const drawerWidth = 240;
 
 export default function main() {
   const [page, setPage] = useState("user");
-  const [userId, setUserId] = useState();
+  const navigate = useNavigate();
 
   const handleListItemClick = (index) => {
     setPage(index);
+  };
+
+  const handleLogout = () => {
+    navigate("/", { replace: true });
   };
 
   return (
@@ -21,6 +25,18 @@ export default function main() {
           <Typography variant="h6" noWrap component="div">
             Dashboard Admin
           </Typography>
+      
+          {/* Spacer untuk mendorong tombol ke kanan */}
+          <Box sx={{ flexGrow: 1 }} />
+      
+          <Button
+            variant="contained"
+            color="error"
+            size="small"
+            onClick={handleLogout}
+          >
+            Logout
+          </Button>
         </Toolbar>
       </AppBar>
 
@@ -59,27 +75,23 @@ export default function main() {
       {/* Konten utama */}
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Toolbar />
-          {/* manajemen user*/}
-          {page == "user" && (<User setPage={setPage}></User>)}
-          {page == "edit_user" && (<editUser setPage={setPage}></editUser>)}
-
-
-        {page == "barang" && (
-          <>
-            <Typography variant="h4" gutterBottom>
-              Barang
-            </Typography>
-            <Typography>Barang</Typography>
-          </>
-        )}
-        {page == "history" && (
-          <>
-            <Typography variant="h4" gutterBottom>
-              History
-            </Typography>
-            <Typography>History</Typography>
-          </>
-        )}
+          {page == "user" && (<User setPage={setPage} ></User>)}
+          {page == "barang" && (
+            <>
+              <Typography variant="h4" gutterBottom>
+                Barang
+              </Typography>
+              <Typography>Barang</Typography>
+            </>
+          )}
+          {page == "history" && (
+            <>
+              <Typography variant="h4" gutterBottom>
+                History
+              </Typography>
+              <Typography>History</Typography>
+            </>
+          )}
       </Box>
     </Box>
   );
