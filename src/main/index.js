@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import loginUser ,{  createOrder, getBarang, getOrder, getPendingOrders, updateOrderStatus, getUser, insertUser } from './model.js';
+import loginUser ,{  createOrder, getBarang, getOrder, getPendingOrders, updateOrderStatus, getUser, insertUser, deleteUser, editUser } from './model.js';
 
 function createWindow() {
   // Create the browser window.
@@ -75,6 +75,8 @@ ipcMain.handle('login-user', async (event, username, password) => {
 // ADMIN
 ipcMain.handle('getUser', getUser)
 ipcMain.handle("insertUser", insertUser);
+ipcMain.handle("deleteUser", deleteUser);
+ipcMain.handle("editUser", editUser);
 
 // KASIR
 

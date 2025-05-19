@@ -1,6 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
-import { createOrder } from '../main/model'
+import { createOrder, editUser } from '../main/model'
 
 // Custom APIs for renderer
 const api = {
@@ -10,7 +10,10 @@ const api = {
   getUser: () => ipcRenderer.invoke('getUser'),
   insertUser: (username, password, status) =>
   ipcRenderer.invoke("insertUser", username, password, status),
-
+  deleteUser: (id) => ipcRenderer.invoke("deleteUser", id),
+  editUser: (username, password, status, id) =>
+  ipcRenderer.invoke("editUser", username, password, status, id),
+  
   //kasir
 
 

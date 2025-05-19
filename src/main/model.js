@@ -45,6 +45,34 @@ export async function insertUser(event, username, password, status) {
   }
 }
 
+export async function deleteUser(event, id) {
+  try {
+    const [rows, metadata] = await pool.query("CALL delete_user(?)", [id]);
+    return {
+      success: true,
+      message: "User deleted successfully",
+    };
+  } catch (error) {
+    return { success: false, message: error.message };
+  }
+}
+
+export async function editUser(event, username, password, status, id) {
+  try {
+    const [rows, metadata] = await pool.query("CALL edit_user(?, ?, ?, ?)", [
+      username,
+      password,
+      status,
+      id
+    ]);
+    return {
+      success: true,
+      message: "User edit successfully",
+    };
+  } catch (error) {
+    return { success: false, message: error.message };
+  }
+}
 
 // Kasir
 

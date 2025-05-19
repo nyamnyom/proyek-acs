@@ -178,3 +178,32 @@ BEGIN
     VALUES (p_username, p_password, p_status);
 END $$
 DELIMITER ;
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `edit_user` $$
+CREATE PROCEDURE `edit_user` (
+	IN p_id INT,
+	IN p_username VARCHAR(50),
+	IN p_password VARCHAR(100),
+	IN p_status VARCHAR(10)
+)   
+BEGIN
+  UPDATE `user` 
+  SET 	
+	username = p_username,  
+	`password` = p_password,
+	`status` = p_status
+  WHERE id = p_id;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `delete_user` $$
+CREATE PROCEDURE `delete_user` (
+	IN p_id INT
+)   
+BEGIN
+  DELETE FROM `user`
+  WHERE id = p_id;
+END $$
+DELIMITER ;

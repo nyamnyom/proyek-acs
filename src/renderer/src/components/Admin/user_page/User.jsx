@@ -41,17 +41,22 @@ export default function user(props){
         }
     }
 
-    function handleToEdit(item) {
-        console.log(item)
-        setId(item.id)
-        setUsername(item.username)
-        setPassword(item.password)
-        setStatus(item.status)
+    async function handleToEdit(item) {
+      console.log(item)
+      setId(item.id)
+      setUsername(item.username)
+      setPassword(item.password)
+      setStatus(item.status)
     }
 
-    function handleDelete(item) {
-      console.log(item)
-
+    async function handleDelete(item_id) { //trouble karena beda id
+      const result = await window.api.deleteUser(item_id);
+      if (result.success) {
+        alert("User deleted successfully");
+        fetchUserData();
+      } else {
+        alert(`Error: ${result.message}`);
+      }
     }
 
     const handleSubmit = async (event) => {
