@@ -153,4 +153,17 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL UpdateOrderStatus ('250515007', 'terkirim');
+DROP PROCEDURE IF EXISTS get_user;
+DELIMITER $$
+CREATE PROCEDURE get_user()
+BEGIN
+  SELECT 
+    id,
+    username,
+    `password`,
+    `status`
+  FROM `user`;
+END $$
+DELIMITER ;
+
+CALL get_user()

@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { Box, Drawer, List, ListItemButton, ListItemText, Typography, Toolbar, AppBar } from '@mui/material';
+import User from "./user_page/User";
+import editUser from "./user_page/edit_user";
 
 const drawerWidth = 240;
 
 export default function main() {
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [page, setPage] = useState("user");
+  const [userId, setUserId] = useState();
 
   const handleListItemClick = (index) => {
-    setSelectedIndex(index);
+    setPage(index);
   };
 
   return (
@@ -16,7 +19,7 @@ export default function main() {
       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
         <Toolbar>
           <Typography variant="h6" noWrap component="div">
-            Dashboard Pengiriman
+            Dashboard Admin
           </Typography>
         </Toolbar>
       </AppBar>
@@ -33,16 +36,22 @@ export default function main() {
         <Toolbar />
         <List>
           <ListItemButton
-            selected={selectedIndex === 0}
-            onClick={() => handleListItemClick(0)}
+            selected={page == "user"}
+            onClick={() => handleListItemClick("user")}
           >
-            <ListItemText primary="Create Order" />
+            <ListItemText primary="User" />
           </ListItemButton>
           <ListItemButton
-            selected={selectedIndex === 1}
-            onClick={() => handleListItemClick(1)}
+            selected={page == "barang"}
+            onClick={() => handleListItemClick("barang")}
           >
-            <ListItemText primary="Kirim" />
+            <ListItemText primary="Barang" />
+          </ListItemButton>
+          <ListItemButton
+            selected={page == "history"}
+            onClick={() => handleListItemClick("history")}
+          >
+            <ListItemText primary="History" />
           </ListItemButton>
         </List>
       </Drawer>
@@ -50,20 +59,25 @@ export default function main() {
       {/* Konten utama */}
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Toolbar />
-        {selectedIndex === 0 && (
+          {/* manajemen user*/}
+          {page == "user" && (<User setPage={setPage}></User>)}
+          {page == "edit_user" && (<editUser setPage={setPage}></editUser>)}
+
+
+        {page == "barang" && (
           <>
             <Typography variant="h4" gutterBottom>
-              Create Order
+              Barang
             </Typography>
-            <Typography>Form input untuk membuat order akan muncul di sini.</Typography>
+            <Typography>Barang</Typography>
           </>
         )}
-        {selectedIndex === 1 && (
+        {page == "history" && (
           <>
             <Typography variant="h4" gutterBottom>
-              Kirim
+              History
             </Typography>
-            <Typography>Daftar order yang siap dikirim akan muncul di sini.</Typography>
+            <Typography>History</Typography>
           </>
         )}
       </Box>

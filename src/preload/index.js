@@ -7,7 +7,7 @@ const api = {
   loginUser: (username, password) => ipcRenderer.invoke('login-user', username, password),
 
   // Admin
-
+  getUser: () => ipcRenderer.invoke('getUser'),
 
 
   //kasir

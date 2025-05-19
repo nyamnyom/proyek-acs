@@ -23,7 +23,11 @@ export default async function loginUser(username, password) {
 }
 
 // ADMIN
-
+export async function getUser(){
+    // ambil data order via function di DB
+     const [[result, meta], field] = await pool.query('call get_user()');
+    return result;
+}
 
 
 // Kasir
