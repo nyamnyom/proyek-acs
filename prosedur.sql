@@ -166,4 +166,15 @@ BEGIN
 END $$
 DELIMITER ;
 
-CALL get_user()
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `insert_user`$$
+CREATE PROCEDURE `insert_user` (
+    IN p_username VARCHAR(50),
+    IN p_password VARCHAR(100),
+    IN p_status VARCHAR(10)
+)
+BEGIN
+    INSERT INTO `user` (username, `password`, `status`)
+    VALUES (p_username, p_password, p_status);
+END $$
+DELIMITER ;
