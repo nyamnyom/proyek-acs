@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, Drawer, List, ListItemButton, ListItemText, Typography, Toolbar, AppBar } from '@mui/material';
 import User from "./user_page/User";
+import Barang from "./barang_page/Barang";
 
 const drawerWidth = 240;
 
@@ -75,15 +76,8 @@ export default function main() {
       {/* Konten utama */}
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Toolbar />
-          {page == "user" && (<User setPage={setPage} ></User>)}
-          {page == "barang" && (
-            <>
-              <Typography variant="h4" gutterBottom>
-                Barang
-              </Typography>
-              <Typography>Barang</Typography>
-            </>
-          )}
+          {page == "user" && (<User></User>)}
+          {page == "barang" && (<Barang></Barang>)}
           {page == "history" && (
             <>
               <Typography variant="h4" gutterBottom>

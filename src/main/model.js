@@ -74,6 +74,22 @@ export async function editUser(event, username, password, status, id) {
   }
 }
 
+export async function insertBarang(event, nama, harga, stok) {
+  try {
+    const [rows, metadata] = await pool.query("CALL insert_barang(?, ?, ?)", [
+      nama, 
+      harga, 
+      stok
+    ]);
+    return {
+      success: true,
+      message: "Item added successfully",
+    };
+  } catch (error) {
+    return { success: false, message: error.message };
+  }
+}
+
 // Kasir
 
 

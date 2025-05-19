@@ -207,3 +207,16 @@ BEGIN
   WHERE id = p_id;
 END $$
 DELIMITER ;
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `insert_barang`$$
+CREATE PROCEDURE `insert_barang` (
+    IN p_nama_barang VARCHAR(50),
+    IN p_harga DECIMAL (10,2),
+    IN p_stok INT
+)
+BEGIN
+    INSERT INTO `barang` (nama_barang, `harga`, `stok`)
+    VALUES (p_nama_barang, p_harga, p_stok);
+END $$
+DELIMITER ;

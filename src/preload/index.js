@@ -13,6 +13,9 @@ const api = {
   deleteUser: (id) => ipcRenderer.invoke("deleteUser", id),
   editUser: (username, password, status, id) =>
   ipcRenderer.invoke("editUser", username, password, status, id),
+
+  insertBarang: (nama, harga, stok) =>
+  ipcRenderer.invoke("insertBarang", nama, harga, stok),
   
   //kasir
 
