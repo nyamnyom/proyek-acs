@@ -1,17 +1,25 @@
-import React, { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Drawer, List, ListItemButton, ListItemText, Typography, Toolbar, AppBar } from '@mui/material';
+import { Box, Button, Drawer, List, ListItemButton, ListItemText, Typography, Toolbar, AppBar, ButtonGroup, Popper, Grow, Paper, ClickAwayListener, MenuList, MenuItem } from '@mui/material';
 import User from "./user_page/User";
 import Barang from "./barang_page/Barang";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import HistoryOrder from './history_page/history_page';
 
 const drawerWidth = 240;
-
+const options = ['History Order', 'History Kirim', 'History Nota'];
 export default function main() {
   const [page, setPage] = useState("user");
+  const [selectedHistoryTab, setSelectedHistoryTab] = useState(0);
   const navigate = useNavigate();
 
   const handleListItemClick = (index) => {
-    setPage(index);
+    if (index === "history") {
+      setPage("history");
+      setSelectedHistoryTab(0);
+    } else {
+      setPage(index);
+    }
   };
 
   const handleLogout = () => {
@@ -78,12 +86,17 @@ export default function main() {
         <Toolbar />
           {page == "user" && (<User></User>)}
           {page == "barang" && (<Barang></Barang>)}
-          {page == "history" && (
+          {page === "history" && <HistoryOrder defaultTab={selectedHistoryTab} setSelectedTab={setSelectedHistoryTab} />}
+          {page === "history_kirim" && (
             <>
-              <Typography variant="h4" gutterBottom>
-                History
-              </Typography>
-              <Typography>History</Typography>
+              <Typography variant="h4" gutterBottom>History Kirim</Typography>
+              <Typography>Isi halaman History Kirim</Typography>
+            </>
+          )}
+          {page === "history_nota" && (
+            <>
+              <Typography variant="h4" gutterBottom>History Nota</Typography>
+              <Typography>Isi halaman History Nota</Typography>
             </>
           )}
       </Box>

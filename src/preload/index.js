@@ -16,6 +16,11 @@ const api = {
 
   insertBarang: (nama, harga, stok) =>
   ipcRenderer.invoke("insertBarang", nama, harga, stok),
+
+  getNota: () => ipcRenderer.invoke('getNota'),
+  getDetailNota: (notaId) => ipcRenderer.invoke('getDetailNota', notaId),
+  getAllOrder: () => ipcRenderer.invoke('getAllOrder'),
+  getDetailOrder: (orderId) => ipcRenderer.invoke('getDetailOrder', orderId),
   
   //kasir
 

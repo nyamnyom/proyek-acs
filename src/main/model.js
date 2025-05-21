@@ -90,6 +90,32 @@ export async function insertBarang(event, nama, harga, stok) {
   }
 }
 
+export async function getAllOrder(){
+    const [[result, meta], field] = await pool.query('call get_all_order()');
+    return result;
+}
+
+export async function getDetailOrder(event, orderId){
+    const [[result, meta], field] = await pool.query('call get_detail_order(?)', [orderId]);
+    return result;
+}
+
+export async function getPengiriman(){
+    const [[result, meta], field] = await pool.query('call get_pengiriman()');
+    return result;
+}
+
+export async function getNota(){
+    const [[result, meta], field] = await pool.query('call get_nota()');
+    return result;
+}
+
+export async function getDetailNota(event, notaId){
+    const [[result, meta], field] = await pool.query('call get_detail_nota(?)', [notaId]);
+    return result;
+}
+
+
 // Kasir
 
 
@@ -97,13 +123,13 @@ export async function insertBarang(event, nama, harga, stok) {
 // Pengiriman
 export async function getOrder(){
     // ambil data order via function di DB
-     const [[result, meta], field] = await pool.query('call get_orders()');
+    const [[result, meta], field] = await pool.query('call get_orders()');
     return result;
 }
 
 export async function getBarang(){
     // ambil data order via function di DB
-     const [[result, meta], field] = await pool.query('call getBarang()');
+    const [[result, meta], field] = await pool.query('call getBarang()');
     return result;
 }
 

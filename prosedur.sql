@@ -220,3 +220,55 @@ BEGIN
     VALUES (p_nama_barang, p_harga, p_stok);
 END $$
 DELIMITER ;
+
+-- History
+DROP PROCEDURE IF EXISTS get_nota;
+DELIMITER //
+CREATE PROCEDURE get_nota()
+BEGIN
+  SELECT * FROM nota
+  ORDER BY created_at DESC;
+END//
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS get_detail_nota;
+DELIMITER //
+CREATE PROCEDURE get_detail_nota(
+  IN htrans_nota INT
+)
+BEGIN
+  SELECT * FROM detail_nota
+  WHERE id_htrans = htrans_nota;
+END//
+DELIMITER ;
+
+
+DROP PROCEDURE IF EXISTS get_all_order;
+DELIMITER //
+CREATE PROCEDURE get_all_order()
+BEGIN
+  SELECT * FROM `order`
+  ORDER BY created_at DESC;
+END//
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS get_detail_order;
+DELIMITER //
+CREATE PROCEDURE get_detail_order(
+  IN htrans_order INT
+)
+BEGIN
+  SELECT * FROM detail_order
+  WHERE id_htrans = htrans_order;
+END//
+DELIMITER ;
+
+
+DROP PROCEDURE IF EXISTS get_pengiriman;
+DELIMITER //
+CREATE PROCEDURE get_pengiriman()
+BEGIN
+  SELECT p.*, o.* FROM pengiriman p
+  JOIN `order` o ON o.id = p.id_order;
+END//
+DELIMITER ;

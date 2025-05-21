@@ -10,7 +10,6 @@ function Login() {
   const handleLogin = async () => {
     const result = await window.api.loginUser(username, password);
     if (result) {
-      console.log(result);
       const role = result.status.toLowerCase(); // admin, kasir, pengiriman
       navigate(`/${role}`);
     } else {

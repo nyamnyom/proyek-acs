@@ -33,7 +33,7 @@ INSERT INTO barang (nama_barang, harga, stok) VALUES
 
 -- TABEL NOTA
 CREATE TABLE IF NOT EXISTS nota (
-  id_dtrans INT AUTO_INCREMENT PRIMARY KEY,
+  id_htrans INT AUTO_INCREMENT PRIMARY KEY,
   harga_total DECIMAL(10,2) NOT NULL,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -41,13 +41,13 @@ CREATE TABLE IF NOT EXISTS nota (
 
 -- TABEL DETAIL NOTA
 CREATE TABLE IF NOT EXISTS detail_nota (
-  id_htrans INT,
   id_dtrans INT,
+  id_htrans INT,
   nama_barang VARCHAR(100),
   harga_barang DECIMAL(10,2),
   jumlah_barang INT,
   total_harga DECIMAL(10,2),
-  FOREIGN KEY (id_dtrans) REFERENCES nota(id_dtrans)
+  FOREIGN KEY (id_htrans) REFERENCES nota(id_htrans)
 );
 
 -- TABEL ORDER
