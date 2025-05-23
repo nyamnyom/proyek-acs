@@ -44,16 +44,16 @@ export default function barang(){
     async function handleToEdit(item) {
       console.log(item)
       setId(item.id)
-      setNamaBarang(item.nama_barang)
+      setNamaBarang(item.nama)
       setHarga(item.harga)
       setStok(item.stok)
     }
 
-    async function handleDelete(item_id) { //blum
+    async function handleDelete(item_id) { //trouble
       const result = await window.api.deleteBarang(item_id);
       if (result.success) {
-        alert("User deleted successfully");
-        fetchUserData();
+        alert("Barang deleted successfully");
+        fetchBarangData();
       } else {
         alert(`Error: ${result.message}`);
       }
@@ -82,9 +82,8 @@ export default function barang(){
         } else {
             const result = await window.api.editUser(
               id,
-              username,
-              password,
-              status,
+              harga,
+              stok,
             );
             if (result.success) {
               alert("Barang edited ");
@@ -175,6 +174,7 @@ export default function barang(){
                             value={namaBarang}
                             onChange={(e) => setNamaBarang(e.target.value)}
                             size="small"
+                            disabled={id !== ""}
                         />
                     </Grid>
                     <Grid item xs={12} >

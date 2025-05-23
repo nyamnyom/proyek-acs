@@ -90,6 +90,34 @@ export async function insertBarang(event, nama, harga, stok) {
   }
 }
 
+export async function editBarang(event, harga, stok, id) {
+  try {
+    const [rows, metadata] = await pool.query("CALL edit_barang(?, ?, ?)", [
+      harga,
+      stok,
+      id
+    ]);
+    return {
+      success: true,
+      message: "Barang edit successfully",
+    };
+  } catch (error) {
+    return { success: false, message: error.message };
+  }
+}
+
+export async function deleteBarang(event, id) {
+  try {
+    const [rows, metadata] = await pool.query("CALL delete_barang(?)", [id]);
+    return {
+      success: true,
+      message: "Barang deleted successfully",
+    };
+  } catch (error) {
+    return { success: false, message: error.message };
+  }
+}
+
 export async function getAllOrder(){
     const [[result, meta], field] = await pool.query('call get_all_order()');
     return result;

@@ -16,6 +16,10 @@ const api = {
 
   insertBarang: (nama, harga, stok) =>
   ipcRenderer.invoke("insertBarang", nama, harga, stok),
+  editBarang: (harga, stok, id) => 
+  ipcRenderer.invoke("editBarang", harga, stok, id),
+  deleteBarang: (id) => 
+  ipcRenderer.invoke("deleteBarang", id),
 
   getNota: () => ipcRenderer.invoke('getNota'),
   getDetailNota: (notaId) => ipcRenderer.invoke('getDetailNota', notaId),

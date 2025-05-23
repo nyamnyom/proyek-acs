@@ -30,34 +30,41 @@ function Login() {
           Login
         </Typography>
 
-        <TextField
-          label="Username"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-
-        <TextField
-          label="Password"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <Button
-          variant="contained"
-          color="primary"
-          fullWidth
-          sx={{ mt: 3 }}
-          onClick={handleLogin}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault(); // hindari reload halaman
+            handleLogin();
+          }}
         >
-          Login
-        </Button>
+          <TextField
+            label="Username"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+
+          <TextField
+            label="Password"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            type="submit" // tombol akan ikut trigger saat tekan Enter
+            sx={{ mt: 3 }}
+          >
+            Login
+          </Button>
+        </form>
       </Paper>
     </Box>
   );

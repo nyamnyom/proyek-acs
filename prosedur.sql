@@ -272,3 +272,30 @@ BEGIN
   JOIN `order` o ON o.id = p.id_order;
 END//
 DELIMITER ;
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `edit_barang` $$
+CREATE PROCEDURE `edit_barang` (
+	IN p_id INT,
+	IN p_harga DECIMAL(10,2),
+	IN p_stok INT
+)   
+BEGIN
+  UPDATE `barang` 
+  SET 	
+	harga = p_harga,  
+	stok = p_stok
+  WHERE id = p_id;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `delete_barang` $$
+CREATE PROCEDURE `delete_barang` (
+	IN p_id INT
+)   
+BEGIN
+  DELETE FROM `barang`
+  WHERE id = p_id;
+END $$
+DELIMITER ;
