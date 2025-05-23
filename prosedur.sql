@@ -276,16 +276,16 @@ DELIMITER ;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `edit_barang` $$
 CREATE PROCEDURE `edit_barang` (
-	IN p_id INT,
 	IN p_harga DECIMAL(10,2),
-	IN p_stok INT
+	IN p_stok INT,
+  IN p_id INT
 )   
 BEGIN
   UPDATE `barang` 
   SET 	
 	harga = p_harga,  
 	stok = p_stok
-  WHERE id = p_id;
+  WHERE id_barang = p_id;
 END $$
 DELIMITER ;
 
@@ -296,6 +296,7 @@ CREATE PROCEDURE `delete_barang` (
 )   
 BEGIN
   DELETE FROM `barang`
-  WHERE id = p_id;
+  WHERE id_barang = p_id;
 END $$
 DELIMITER ;
+

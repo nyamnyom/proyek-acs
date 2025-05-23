@@ -24,8 +24,8 @@ export default function barang(){
     //Data Form
     const [id, setId] = useState("");
     const [namaBarang, setNamaBarang] = useState("");
-    const [harga, setHarga] = useState('');
-    const [stok, setStok] = useState('');
+    const [harga, setHarga] = useState(0);
+    const [stok, setStok] = useState(0);
 
     useEffect(() => {
       fetchBarangData();
@@ -49,7 +49,8 @@ export default function barang(){
       setStok(item.stok)
     }
 
-    async function handleDelete(item_id) { //trouble
+    async function handleDelete(item_id) { 
+      console.log("Deleting ID:", item_id);
       const result = await window.api.deleteBarang(item_id);
       if (result.success) {
         alert("Barang deleted successfully");
@@ -73,17 +74,17 @@ export default function barang(){
               alert("Barang added successfully");
               setId("");
               setNamaBarang('');
-              setHarga();
-              setStok();
+              setHarga('');
+              setStok('');
               fetchBarangData();
             } else {
               alert(`Error: ${result.message}`);
             }
         } else {
-            const result = await window.api.editUser(
-              id,
+            const result = await window.api.editBarang(
               harga,
               stok,
+              id
             );
             if (result.success) {
               alert("Barang edited ");
@@ -184,6 +185,7 @@ export default function barang(){
                             label="Harga"
                             type="number"
                             value={harga}
+                            inputProps={{ min: 0 }} 
                             onChange={(e) => setHarga(e.target.value)}
                             size="small"
                         />
@@ -195,6 +197,7 @@ export default function barang(){
                             label="Stock"
                             type="number"
                             value={stok}
+                            inputProps={{ min: 0 }} 
                             onChange={(e) => setStok(e.target.value)}
                             size="small"
                         />
