@@ -1,5 +1,5 @@
-DROP FUNCTION IF EXISTS fn_cek_user;
 DELIMITER //
+
 CREATE FUNCTION fn_cek_user(username_in VARCHAR(50), password_in VARCHAR(100))
 RETURNS INT
 DETERMINISTIC
@@ -15,27 +15,28 @@ BEGIN
 
   RETURN valid;
 END //
+
 DELIMITER ;
 
 
-DROP PROCEDURE IF EXISTS sp_login_user;
 DELIMITER //
+
 CREATE PROCEDURE sp_login_user(
   IN username_in VARCHAR(50),
   IN password_in VARCHAR(100)
 )
 BEGIN
-  SELECT username, `status`
+  SELECT username, STATUS
   FROM USER
   WHERE username = username_in AND PASSWORD = password_in;
 END //
+
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS get_orders;
 DELIMITER //
-CREATE PROCEDURE get_orders()
+CREATE OR REPLACE PROCEDURE get_orders()
 BEGIN
-  SELECT id, nama_pembeli, harga_total, `status`
+  SELECT id, nama_pembeli, harga_total, STATUS
   FROM `order`
   WHERE STATUS = 'belum';
 END //
@@ -43,9 +44,9 @@ DELIMITER ;
 
 
 -- ambil barang
-DROP PROCEDURE IF EXISTS getBarang;
 DELIMITER $$
-CREATE PROCEDURE getBarang()
+
+CREATE or replace PROCEDURE getBarang()
 BEGIN
   SELECT 
     id_barang AS id,
@@ -54,14 +55,13 @@ BEGIN
     stok
   FROM barang;
 END $$
-DELIMITER ;
 
 
 
 -- generate order_id
-DROP FUNCTION IF EXISTS generate_order_id;
 DELIMITER $$
-CREATE FUNCTION generate_order_id() RETURNS VARCHAR(12)
+
+CREATE or replace FUNCTION generate_order_id() RETURNS VARCHAR(12)
 DETERMINISTIC
 BEGIN
   DECLARE yymmdd VARCHAR(8);
@@ -78,13 +78,14 @@ BEGIN
 
   RETURN order_id;
 END$$
+
 DELIMITER ;
 
 
 -- create
-DROP PROCEDURE IF EXISTS create_order;
 DELIMITER $$
-CREATE PROCEDURE create_order(
+
+CREATE OR REPLACE PROCEDURE create_order(
   IN p_nama_pembeli VARCHAR(100),
   IN p_total DECIMAL(10,2),
   IN p_json_items JSON,
@@ -130,173 +131,32 @@ BEGIN
 
   SET p_order_id = orderId;
 END$$
+
 DELIMITER ;
 
 
-DROP PROCEDURE IF EXISTS GetPendingOrders;
 DELIMITER $$
+
 CREATE PROCEDURE GetPendingOrders()
 BEGIN
-  SELECT id, nama_pembeli, harga_total, `status`, created_at
+  SELECT id, nama_pembeli, harga_total, status, created_at
   FROM `order`
-  WHERE STATUS = 'belum';
+  WHERE status = 'belum';
 END $$
+
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS UpdateOrderStatus;
 DELIMITER //
-CREATE PROCEDURE UpdateOrderStatus(IN orderId VARCHAR(20), IN newStatus VARCHAR(20))
+CREATE or replace PROCEDURE UpdateOrderStatus(IN orderId VARCHAR(20), IN newStatus VARCHAR(20))
 BEGIN
   UPDATE `order`
-  SET `status` = newStatus
+  SET status = newStatus
   WHERE id = orderId;
 END //
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS get_user;
-DELIMITER $$
-CREATE PROCEDURE get_user()
-BEGIN
-  SELECT 
-    id,
-    username,
-    `password`,
-    `status`
-  FROM `user`;
-END $$
-DELIMITER ;
 
-DELIMITER $$
-DROP PROCEDURE IF EXISTS `insert_user`$$
-CREATE PROCEDURE `insert_user` (
-    IN p_username VARCHAR(50),
-    IN p_password VARCHAR(100),
-    IN p_status VARCHAR(10)
-)
-BEGIN
-    INSERT INTO `user` (username, `password`, `status`)
-    VALUES (p_username, p_password, p_status);
-END $$
-DELIMITER ;
-
-DELIMITER $$
-DROP PROCEDURE IF EXISTS `edit_user` $$
-CREATE PROCEDURE `edit_user` (
-	IN p_id INT,
-	IN p_username VARCHAR(50),
-	IN p_password VARCHAR(100),
-	IN p_status VARCHAR(10)
-)   
-BEGIN
-  UPDATE `user` 
-  SET 	
-	username = p_username,  
-	`password` = p_password,
-	`status` = p_status
-  WHERE id = p_id;
-END $$
-DELIMITER ;
-
-DELIMITER $$
-DROP PROCEDURE IF EXISTS `delete_user` $$
-CREATE PROCEDURE `delete_user` (
-	IN p_id INT
-)   
-BEGIN
-  DELETE FROM `user`
-  WHERE id = p_id;
-END $$
-DELIMITER ;
-
-DELIMITER $$
-DROP PROCEDURE IF EXISTS `insert_barang`$$
-CREATE PROCEDURE `insert_barang` (
-    IN p_nama_barang VARCHAR(50),
-    IN p_harga DECIMAL (10,2),
-    IN p_stok INT
-)
-BEGIN
-    INSERT INTO `barang` (nama_barang, `harga`, `stok`)
-    VALUES (p_nama_barang, p_harga, p_stok);
-END $$
-DELIMITER ;
-
--- History
-DROP PROCEDURE IF EXISTS get_nota;
-DELIMITER //
-CREATE PROCEDURE get_nota()
-BEGIN
-  SELECT * FROM nota
-  ORDER BY created_at DESC;
-END//
-DELIMITER ;
-
-DROP PROCEDURE IF EXISTS get_detail_nota;
-DELIMITER //
-CREATE PROCEDURE get_detail_nota(
-  IN htrans_nota INT
-)
-BEGIN
-  SELECT * FROM detail_nota
-  WHERE id_htrans = htrans_nota;
-END//
-DELIMITER ;
+call UpdateOrderStatus ('250515007', 'terkirim');
 
 
-DROP PROCEDURE IF EXISTS get_all_order;
-DELIMITER //
-CREATE PROCEDURE get_all_order()
-BEGIN
-  SELECT * FROM `order`
-  ORDER BY created_at DESC;
-END//
-DELIMITER ;
-
-DROP PROCEDURE IF EXISTS get_detail_order;
-DELIMITER //
-CREATE PROCEDURE get_detail_order(
-  IN htrans_order INT
-)
-BEGIN
-  SELECT * FROM detail_order
-  WHERE id_htrans = htrans_order;
-END//
-DELIMITER ;
-
-
-DROP PROCEDURE IF EXISTS get_pengiriman;
-DELIMITER //
-CREATE PROCEDURE get_pengiriman()
-BEGIN
-  SELECT p.*, o.* FROM pengiriman p
-  JOIN `order` o ON o.id = p.id_order;
-END//
-DELIMITER ;
-
-DELIMITER $$
-DROP PROCEDURE IF EXISTS `edit_barang` $$
-CREATE PROCEDURE `edit_barang` (
-	IN p_harga DECIMAL(10,2),
-	IN p_stok INT,
-  IN p_id INT
-)   
-BEGIN
-  UPDATE `barang` 
-  SET 	
-	harga = p_harga,  
-	stok = p_stok
-  WHERE id_barang = p_id;
-END $$
-DELIMITER ;
-
-DELIMITER $$
-DROP PROCEDURE IF EXISTS `delete_barang` $$
-CREATE PROCEDURE `delete_barang` (
-	IN p_id INT
-)   
-BEGIN
-  DELETE FROM `barang`
-  WHERE id_barang = p_id;
-END $$
-DELIMITER ;
 

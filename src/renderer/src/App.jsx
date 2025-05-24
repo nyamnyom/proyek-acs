@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useParams } from 'react-router-dom';
 import Login from './components/Login';
 import AdminMain from './components/Admin/main';
 import KasirMain from './components/Kasir/main';
@@ -6,6 +6,7 @@ import KasirMain from './components/Kasir/main';
 import OrderList from './components/Pengiriman/OrderList';
 import CreateOrder from './components/Pengiriman/CreateOrder';
 import KirimOrder from './components/Pengiriman/KirimOrder';
+import EditOrder from './components/Pengiriman/EditOrder'; 
 
 function App() {
   return (
@@ -22,9 +23,14 @@ function App() {
         <Route path="/pengiriman/order" element={<OrderList />} />
         <Route path="/pengiriman/create" element={<CreateOrder />} />
         <Route path="/pengiriman/kirim" element={<KirimOrder />} />
+        <Route path="/pengiriman/edit/:idOrder" element={<EditOrderWrapper />} />
+
       </Routes>
     </BrowserRouter>
   );
 }
-
+function EditOrderWrapper() {
+  const { idOrder } = useParams();
+  return <EditOrder idOrder={idOrder} />;
+}
 export default App;

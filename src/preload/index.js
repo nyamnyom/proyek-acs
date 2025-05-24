@@ -37,6 +37,12 @@ const api = {
   createOrder: (namaPembeli, total, keranjang) => ipcRenderer.invoke('createOrder', { namaPembeli, total, keranjang }),
   getPendingOrders: () => ipcRenderer.invoke('get-pending-orders'),
   updateOrderStatus: (id, status) => ipcRenderer.invoke('update-order-status', id, status),
+  getOrderById: (idOrder) => ipcRenderer.invoke('get-order-by-id', idOrder),
+  updateJumlahBarangOrderDetail: (idOrder, namaBarang, jumlahBaru) => 
+    ipcRenderer.invoke('updateJumlahBarangOrderDetail', idOrder, namaBarang, jumlahBaru),
+  updateOrderNamaPembeli: (idOrder, namaPembeli, totalHarga) =>
+    ipcRenderer.invoke('update-nama-pembeli', idOrder, namaPembeli, totalHarga),
+
 }
 
 // Expose API

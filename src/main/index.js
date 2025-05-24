@@ -2,7 +2,19 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import loginUser ,{  createOrder, getBarang, getOrder, getPendingOrders, updateOrderStatus, getUser, insertUser, deleteUser, deleteBarang, editBarang, editUser, insertBarang, getNota, getDetailNota, getAllOrder, getDetailOrder, getPengiriman } from './model.js';
+import loginUser ,{  createOrder, 
+  getBarang, getOrder, 
+  getPendingOrders, 
+  updateOrderStatus,
+   getUser, insertUser, 
+   deleteUser, deleteBarang, 
+   editBarang, editUser, 
+   insertBarang, getNota, 
+   getDetailNota, getAllOrder, 
+   getDetailOrder, getPengiriman, 
+   getOrderById, 
+   updateJumlahBarangOrderDetail, 
+   updateOrderNamaPembeli } from './model.js';
 
 function createWindow() {
   // Create the browser window.
@@ -118,6 +130,18 @@ ipcMain.handle('update-order-status', async (event, id, status) => {
   }
 });
 
+
+ipcMain.handle('get-order-by-id', async (event, idOrder) => {
+  return await getOrderById(idOrder);
+});
+
+ipcMain.handle('updateJumlahBarangOrderDetail', async (event, idOrder, namaBarang, jumlahBaru) => {
+  return await updateJumlahBarangOrderDetail(idOrder, namaBarang, jumlahBaru); // Fungsi backend Node.js
+});
+
+ipcMain.handle('update-nama-pembeli', async (event, idOrder, namaPembeli,totalHarga) => {
+  return await updateOrderNamaPembeli(idOrder, namaPembeli, totalHarga);
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {

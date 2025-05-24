@@ -202,3 +202,38 @@ export async function updateOrderStatus(id, status) {
   await pool.query('CALL UpdateOrderStatus(?, ?)', [id, status]);
   return { success: true };
 }
+
+
+export async function getOrderById(idOrder) {
+  const [results] = await pool.query('CALL get_order_with_detail(?)', [idOrder]);
+
+// results itu array of result sets
+const orderMain = results[0][0]; // first result set, first row
+const orderDetails = results[1]; // second result set, array
+
+return {
+  nama_pembeli: orderMain.nama_pembeli,
+  harga_total: orderMain.harga_total,
+  status: orderMain.status,
+  detail: orderDetails,
+};
+}
+
+export async function updateJumlahBarangOrderDetail(idOrder, namaBarang, jumlahBaru) {
+  const [rows] = await pool.query('CALL update_jumlah_barang_order_detail(?, ?, ?)', [
+    idOrder,
+    namaBarang,
+    jumlahBaru,
+  ]);
+  return rows;
+}
+
+export async function updateOrderNamaPembeli(idOrder, namaPembeli, totalHarga) {
+  const [result] = await pool.query('UPDATE `order` SET nama_pembeli = ?, harga_total = ? WHERE id = ?', [
+    namaPembeli,
+    totalHarga,
+    idOrder,
+    
+  ]);
+  return result;
+}
