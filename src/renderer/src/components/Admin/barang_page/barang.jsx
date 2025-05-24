@@ -24,8 +24,8 @@ export default function barang(){
     //Data Form
     const [id, setId] = useState("");
     const [namaBarang, setNamaBarang] = useState("");
-    const [harga, setHarga] = useState('');
-    const [stok, setStok] = useState('');
+    const [harga, setHarga] = useState(0);
+    const [stok, setStok] = useState(0);
 
     useEffect(() => {
       fetchBarangData();
@@ -44,16 +44,17 @@ export default function barang(){
     async function handleToEdit(item) {
       console.log(item)
       setId(item.id)
-      setNamaBarang(item.nama_barang)
+      setNamaBarang(item.nama)
       setHarga(item.harga)
       setStok(item.stok)
     }
 
-    async function handleDelete(item_id) { //blum
+    async function handleDelete(item_id) { 
+      console.log("Deleting ID:", item_id);
       const result = await window.api.deleteBarang(item_id);
       if (result.success) {
-        alert("User deleted successfully");
-        fetchUserData();
+        alert("Barang deleted successfully");
+        fetchBarangData();
       } else {
         alert(`Error: ${result.message}`);
       }
@@ -73,18 +74,17 @@ export default function barang(){
               alert("Barang added successfully");
               setId("");
               setNamaBarang('');
-              setHarga();
-              setStok();
+              setHarga('');
+              setStok('');
               fetchBarangData();
             } else {
               alert(`Error: ${result.message}`);
             }
         } else {
-            const result = await window.api.editUser(
-              id,
-              username,
-              password,
-              status,
+            const result = await window.api.editBarang(
+              harga,
+              stok,
+              id
             );
             if (result.success) {
               alert("Barang edited ");
@@ -175,6 +175,7 @@ export default function barang(){
                             value={namaBarang}
                             onChange={(e) => setNamaBarang(e.target.value)}
                             size="small"
+                            disabled={id !== ""}
                         />
                     </Grid>
                     <Grid item xs={12} >
@@ -184,6 +185,7 @@ export default function barang(){
                             label="Harga"
                             type="number"
                             value={harga}
+                            inputProps={{ min: 0 }} 
                             onChange={(e) => setHarga(e.target.value)}
                             size="small"
                         />
@@ -195,6 +197,7 @@ export default function barang(){
                             label="Stock"
                             type="number"
                             value={stok}
+                            inputProps={{ min: 0 }} 
                             onChange={(e) => setStok(e.target.value)}
                             size="small"
                         />

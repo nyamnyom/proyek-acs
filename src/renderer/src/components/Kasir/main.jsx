@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
-import { Box, Drawer, List, ListItemButton, ListItemText, Typography, Toolbar, AppBar } from '@mui/material';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { Box, Drawer, List, ListItemButton, ListItemText, Typography, Toolbar, AppBar, Button } from '@mui/material';
 
 const drawerWidth = 240;
 
 export default function main() {
   const [selectedIndex, setSelectedIndex] = useState(0);
-
+  const navigate = useNavigate();
+  
   const handleListItemClick = (index) => {
     setSelectedIndex(index);
+  };
+
+  const handleLogout = () => {
+    navigate("/", { replace: true });
   };
 
   return (
@@ -16,9 +22,21 @@ export default function main() {
       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
         <Toolbar>
           <Typography variant="h6" noWrap component="div">
-            Dashboard Pengiriman
+            Dashboard Kasir
           </Typography>
-        </Toolbar>
+
+          {/* Spacer untuk mendorong tombol ke kanan */}
+          <Box sx={{ flexGrow: 1 }} />
+
+          <Button
+            variant="contained"
+            color="error"
+            size="small"
+            onClick={handleLogout}
+          >
+            Logout
+          </Button>
+        </Toolbar>   
       </AppBar>
 
       {/* Drawer (sidebar) */}
