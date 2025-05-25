@@ -66,7 +66,7 @@ export default function HistoryPengiriman() {
                 variant="contained"
                 color="error"
                 size="small"
-                onClick={() => handleDelete((params.row.id) )}
+                onClick={() => handleDelete((params.row.id_pengiriman) )}
               >
                 Delete
               </Button>

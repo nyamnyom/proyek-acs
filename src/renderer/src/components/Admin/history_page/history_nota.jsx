@@ -48,7 +48,7 @@ export default function HistoryNota() {
                   variant="contained"
                   color="error"
                   size="small"
-                  onClick={() => handleDelete((params.row.id) )}
+                  onClick={() => handleDelete((params.row.id_htrans) )}
                 >
                   Delete
                 </Button>
