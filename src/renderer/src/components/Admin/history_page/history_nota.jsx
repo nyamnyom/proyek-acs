@@ -63,7 +63,7 @@ export default function HistoryNota() {
                 <DataGrid
                   rows={nota}
                   columns={columns}
-                  getRowId={(row) => row.id}
+                  getRowId={(row) => row.id_htrans}
                   pageSizeOptions={[5, 10]}
                   initialState={{
                     pagination: { paginationModel: { page: 0, pageSize: 10 } },

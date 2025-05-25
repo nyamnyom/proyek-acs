@@ -25,6 +25,7 @@ const api = {
   getDetailNota: (notaId) => ipcRenderer.invoke('getDetailNota', notaId),
   getAllOrder: () => ipcRenderer.invoke('getAllOrder'),
   getDetailOrder: (orderId) => ipcRenderer.invoke('getDetailOrder', orderId),
+  getPengiriman: () => ipcRenderer.invoke('getPengiriman'),
   
   //kasir
 

@@ -46,7 +46,7 @@ DELIMITER ;
 -- ambil barang
 DELIMITER $$
 
-CREATE or replace PROCEDURE getBarang()
+CREATE OR REPLACE PROCEDURE getBarang()
 BEGIN
   SELECT 
     id_barang AS id,
@@ -61,7 +61,7 @@ END $$
 -- generate order_id
 DELIMITER $$
 
-CREATE or replace FUNCTION generate_order_id() RETURNS VARCHAR(12)
+CREATE OR REPLACE FUNCTION generate_order_id() RETURNS VARCHAR(12)
 DETERMINISTIC
 BEGIN
   DECLARE yymmdd VARCHAR(8);
@@ -139,24 +139,24 @@ DELIMITER $$
 
 CREATE PROCEDURE GetPendingOrders()
 BEGIN
-  SELECT id, nama_pembeli, harga_total, status, created_at
+  SELECT id, nama_pembeli, harga_total, STATUS, created_at
   FROM `order`
-  WHERE status = 'belum';
+  WHERE STATUS = 'belum';
 END $$
 
 DELIMITER ;
 
 DELIMITER //
-CREATE or replace PROCEDURE UpdateOrderStatus(IN orderId VARCHAR(20), IN newStatus VARCHAR(20))
+CREATE OR REPLACE PROCEDURE UpdateOrderStatus(IN orderId VARCHAR(20), IN newStatus VARCHAR(20))
 BEGIN
   UPDATE `order`
-  SET status = newStatus
+  SET STATUS = newStatus
   WHERE id = orderId;
 END //
 DELIMITER ;
 
 
-call UpdateOrderStatus ('250515007', 'terkirim');
+CALL UpdateOrderStatus ('250515007', 'terkirim');
 
 
 

@@ -81,7 +81,7 @@ export default function HistoryPengiriman() {
               <DataGrid
                 rows={kiriman}
                 columns={columns}
-                getRowId={(row) => row.id}
+                getRowId={(row) => row.id_pengiriman}
                 pageSizeOptions={[5, 10]}
                 initialState={{
                   pagination: { paginationModel: { page: 0, pageSize: 10 } },

@@ -7,7 +7,7 @@ export default function HistoryOrder() {
 
     useEffect(() => {
         fetchOrder();
-    })
+    }, [])
 
     async function fetchOrder(){
         try {
