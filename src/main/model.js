@@ -198,8 +198,8 @@ export async function getPendingOrders() {
 }
 
 // Update status satu order
-export async function updateOrderStatus(id, status) {
-  await pool.query('CALL UpdateOrderStatus(?, ?)', [id, status]);
+export async function updateOrderStatus(id, status, pengirim) {
+  await pool.query('CALL UpdateOrderStatus(?, ?, ?)', [id, status, pengirim]);
   return { success: true };
 }
 

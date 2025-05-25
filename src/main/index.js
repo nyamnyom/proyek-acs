@@ -120,9 +120,9 @@ ipcMain.handle('get-pending-orders', async () => {
 });
 
 // ✅ Handler untuk update status order
-ipcMain.handle('update-order-status', async (event, id, status) => {
+ipcMain.handle('update-order-status', async (event, id, status,pengirim) => {
   try {
-    await updateOrderStatus(id, status);
+    await updateOrderStatus(id, status, pengirim);
     return { success: true };
   } catch (error) {
     console.error('Error updating order status:', error);

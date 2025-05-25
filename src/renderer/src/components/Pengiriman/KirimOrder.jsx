@@ -11,6 +11,7 @@ export default function KirimOrder() {
   const [ordersToSend, setOrdersToSend] = useState([]);      // list order yg akan dikirim (keranjang)
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [namaPengirim, setNamaPengirim] = useState(''); 
 
   // Load orders yg belum terkirim untuk pilihan
   useEffect(() => {
@@ -56,7 +57,7 @@ export default function KirimOrder() {
     setLoading(true);
     try {
       for (const order of ordersToSend) {
-        const result = await window.api.updateOrderStatus(order.id, 'terkirim');
+        const result = await window.api.updateOrderStatus(order.id, 'terkirim', namaPengirim);
         if (!result.success) {
           Swal.fire('Gagal', `Gagal mengirim order dengan ID ${order.id}`, 'error');
           setLoading(false);
@@ -69,11 +70,13 @@ export default function KirimOrder() {
       setOrdersToSend([]);
     } catch (err) {
       Swal.fire('Error', 'Terjadi kesalahan saat mengirim order', 'error');
+      console.log(err);
+      console.log(namaPengirim)
     }
     setLoading(false);
   };
 
-  return (
+   return (
     <Box sx={{ display: 'flex' }}>
       <NavbarPengiriman />
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
@@ -82,18 +85,28 @@ export default function KirimOrder() {
 
         {error && <Alert severity="warning" sx={{ mb: 2 }}>{error}</Alert>}
 
-        <Box sx={{ display: 'flex', gap: 2, mb: 3, alignItems: 'center' }}>
-          <Autocomplete
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 3 }}>
+          <TextField
+            label="Nama Pengirim"
+            value={namaPengirim}
+            onChange={(e) => setNamaPengirim(e.target.value)}
             sx={{ width: 400 }}
-            options={ordersAvailable}
-            getOptionLabel={(option) => `#${option.id} - ${option.nama_pembeli} - ${option.harga_total.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}`}
-            value={selectedOrder}
-            onChange={(e, newValue) => setSelectedOrder(newValue)}
-            renderInput={(params) => <TextField {...params} label="Pilih Order untuk Dikirim" />}
-            isOptionEqualToValue={(option, value) => option.id === value.id}
-            clearOnEscape
           />
-          <Button variant="contained" onClick={handleTambahOrder}>Tambah ke Kirim</Button>
+          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+            <Autocomplete
+              sx={{ width: 400 }}
+              options={ordersAvailable}
+              getOptionLabel={(option) =>
+                `#${option.id} - ${option.nama_pembeli} - ${option.harga_total.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}`
+              }
+              value={selectedOrder}
+              onChange={(e, newValue) => setSelectedOrder(newValue)}
+              renderInput={(params) => <TextField {...params} label="Pilih Order untuk Dikirim" />}
+              isOptionEqualToValue={(option, value) => option.id === value.id}
+              clearOnEscape
+            />
+            <Button variant="contained" onClick={handleTambahOrder}>Tambah ke Kirim</Button>
+          </Box>
         </Box>
 
         <Table>

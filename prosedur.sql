@@ -143,15 +143,27 @@ BEGIN
 END $$
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS UpdateOrderStatus;
+
 DELIMITER //
-CREATE PROCEDURE UpdateOrderStatus(IN orderId VARCHAR(20), IN newStatus VARCHAR(20))
+
+CREATE OR REPLACE PROCEDURE UpdateOrderStatus(
+  IN orderId VARCHAR(20),
+  IN newStatus VARCHAR(20),
+  IN namaPengirim VARCHAR(100)
+)
 BEGIN
   UPDATE `order`
-  SET `status` = newStatus
+  SET STATUS = newStatus
   WHERE id = orderId;
-END //
+
+  IF newStatus = 'terkirim' THEN
+    INSERT INTO pengiriman (id_order, nama_pengirim)
+    VALUES (orderId, namaPengirim);
+  END IF;
+END//
+
 DELIMITER ;
+
 
 DROP PROCEDURE IF EXISTS get_user;
 DELIMITER $$
@@ -298,5 +310,55 @@ BEGIN
   DELETE FROM `barang`
   WHERE id_barang = p_id;
 END $$
+DELIMITER ;
+
+
+-- ngene lo
+DELIMITER $$
+
+CREATE OR REPLACE PROCEDURE update_jumlah_barang_order_detail(
+  IN p_id_order VARCHAR(12),
+  IN p_nama_barang VARCHAR(100),
+  IN p_jumlah_baru INT
+)
+BEGIN
+  DECLARE v_jumlah_lama INT;
+
+  SELECT jumlah_barang INTO v_jumlah_lama
+  FROM order_detail
+  WHERE id_order = p_id_order AND nama_barang = p_nama_barang;
+
+  -- Update order_detail
+  UPDATE order_detail
+  SET jumlah_barang = p_jumlah_baru,
+      total_harga = harga_barang * p_jumlah_baru
+  WHERE id_order = p_id_order AND nama_barang = p_nama_barang;
+
+  -- Update stok di barang
+  UPDATE barang
+  SET stok = stok + v_jumlah_lama - p_jumlah_baru
+  WHERE nama_barang = p_nama_barang;
+END $$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE PROCEDURE get_order_with_detail(
+  IN p_id_order VARCHAR(12)
+)
+BEGIN
+  -- Result set pertama: data order utama
+  SELECT id, nama_pembeli, harga_total, STATUS
+  FROM `order`
+  WHERE id = p_id_order;
+
+  -- Result set kedua: data detail order
+  SELECT nama_barang, harga_barang, jumlah_barang, total_harga
+  FROM order_detail
+  WHERE id_order = p_id_order;
+END $$
+
 DELIMITER ;
 
