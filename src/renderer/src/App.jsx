@@ -3,6 +3,8 @@ import Login from './components/Login';
 import AdminMain from './components/Admin/main';
 import KasirMain from './components/Kasir/main';
 
+import CreateOrderKasir from './components/Kasir/CreateOrderKasir';
+
 import OrderList from './components/Pengiriman/OrderList';
 import CreateOrder from './components/Pengiriman/CreateOrder';
 import KirimOrder from './components/Pengiriman/KirimOrder';
@@ -24,6 +26,9 @@ function App() {
         <Route path="/pengiriman/create" element={<CreateOrder />} />
         <Route path="/pengiriman/kirim" element={<KirimOrder />} />
         <Route path="/pengiriman/edit/:idOrder" element={<EditOrderWrapper />} />
+
+        {/* Kasir routes */}
+        <Route path="/kasir/create-order-kasir" element={<CreateOrderKasir />} />
 
       </Routes>
     </BrowserRouter>

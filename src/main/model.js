@@ -1,6 +1,5 @@
 import mysql from 'mysql2/promise';
 
-
 // Buat koneksi pool ke database MySQL
 const pool = mysql.createPool({
   host: 'localhost',
