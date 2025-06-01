@@ -4,7 +4,7 @@ import mysql from 'mysql2/promise';
 const pool = mysql.createPool({
   host: 'localhost',
   user: 'root',
-  password: '',        // Ganti dengan password MySQL kamu
+  password: '',      
   database: 'proyek-acs',
   multipleStatements: true 
 });
@@ -144,7 +144,36 @@ export async function getDetailNota(event, notaId){
 
 
 // Kasir
+export async function createNota({ hargaTotal, keranjang }) {
+  const conn = await pool.getConnection();
+  try {
+    await conn.beginTransaction();
 
+    const jsonItems = JSON.stringify(keranjang);
+
+    // Panggil prosedur create_nota
+    await conn.query(
+      `CALL create_nota(?, ?, @nota_id);`,
+      [hargaTotal, jsonItems]
+    );
+
+    // Ambil nilai output parameter
+    const [[result]] = await conn.query(`SELECT @nota_id AS notaId;`);
+    const notaId = result.notaId;
+
+    if (!notaId) throw new Error('Gagal mendapatkan nota ID dari prosedur');
+
+    await conn.commit();
+    return { notaId };
+
+  } catch (error) {
+    await conn.rollback();
+    console.error('Gagal create nota:', error);
+    throw error;
+  } finally {
+    conn.release();
+  }
+}
 
 
 // Pengiriman

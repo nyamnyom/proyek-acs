@@ -1,6 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
-import { createOrder, editUser } from '../main/model'
+import { createNota, createOrder, editUser } from '../main/model'
 
 // Custom APIs for renderer
 const api = {
@@ -28,7 +28,7 @@ const api = {
   getPengiriman: () => ipcRenderer.invoke('getPengiriman'),
   
   //kasir
-
+  createNota: (total, keranjang) => ipcRenderer.invoke('createNota', { total, keranjang }),
 
 
 

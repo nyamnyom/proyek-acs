@@ -14,7 +14,8 @@ import loginUser ,{  createOrder,
    getDetailOrder, getPengiriman, 
    getOrderById, 
    updateJumlahBarangOrderDetail, 
-   updateOrderNamaPembeli } from './model.js';
+   updateOrderNamaPembeli, 
+   createNota} from './model.js';
 
 function createWindow() {
   // Create the browser window.
@@ -102,6 +103,14 @@ ipcMain.handle('getPengiriman', getPengiriman);
 
 
 // KASIR
+ipcMain.handle('createNota', async (event, { total, keranjang }) => {
+  try {
+    const { notaId } = await createNota({ hargaTotal: total, keranjang });
+    return { success: true, notaId };
+  } catch (err) {
+    return { success: false, message: err.message };
+  }
+});
 
 
 // PENGIRIMAN 

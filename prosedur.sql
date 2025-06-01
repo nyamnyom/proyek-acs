@@ -362,3 +362,7 @@ END $$
 
 DELIMITER ;
 
+
+-- KASIR PROSEDUR
+
+

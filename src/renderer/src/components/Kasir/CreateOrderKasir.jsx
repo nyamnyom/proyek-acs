@@ -5,7 +5,7 @@ import {
   Autocomplete, Alert, Paper
 } from '@mui/material';
 import Swal from 'sweetalert2';
-import NavbarKasir from './NavbarKasir'; // Sesuaikan dengan navbar kasir Anda
+import NavbarKasir from './NavbarKasir'; 
 
 export default function CreateOrderKasir() {
   const [barangList, setBarangList] = useState([]);
@@ -14,7 +14,7 @@ export default function CreateOrderKasir() {
   const [keranjang, setKeranjang] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [namaPembeli, setNamaPembeli] = useState('');
+  // const [namaPembeli, setNamaPembeli] = useState('');
 
   useEffect(() => {
     async function fetchBarang() {
@@ -97,18 +97,15 @@ export default function CreateOrderKasir() {
       return;
     }
     
-    if (!namaPembeli.trim()) {
-      setError('Nama pembeli wajib diisi');
-      return;
-    }
-
     setLoading(true);
     try {
-      const result = await window.api.createOrder({
-        namaPembeli: namaPembeli.trim(),
-        keranjang: keranjang.map(({ id, qty }) => ({ id, qty })),
-        hargaTotal: totalHarga
-      });
+      const jsonKeranjang = keranjang.map(item => ({
+        nama_barang: item.nama,
+        harga_barang: item.harga,
+        jumlah_barang: item.qty,
+        total_harga: item.harga * item.qty
+      }));
+      const result = await window.api.createNota(totalHarga, jsonKeranjang);
 
       if (result.success) {
         // Update stok lokal
@@ -123,7 +120,6 @@ export default function CreateOrderKasir() {
         
         // Reset form
         setKeranjang([]);
-        setNamaPembeli('');
 
         Swal.fire({
           title: 'Order Berhasil Dibuat!',
@@ -142,7 +138,6 @@ export default function CreateOrderKasir() {
 
   const handleReset = () => {
     setKeranjang([]);
-    setNamaPembeli('');
     setSelectedBarang(null);
     setQty('');
     setError('');
@@ -159,19 +154,6 @@ export default function CreateOrderKasir() {
 
         {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 
-        <Paper elevation={3} sx={{ p: 3, mb: 3 }}>
-          <Typography variant="h6" gutterBottom>
-            Informasi Pembeli
-          </Typography>
-          <TextField
-            label="Nama Pembeli"
-            value={namaPembeli}
-            onChange={(e) => setNamaPembeli(e.target.value)}
-            fullWidth
-            sx={{ mb: 2 }}
-            required
-          />
-        </Paper>
 
         <Paper elevation={3} sx={{ p: 3, mb: 3 }}>
           <Typography variant="h6" gutterBottom>
@@ -301,7 +283,7 @@ export default function CreateOrderKasir() {
           <Button
             variant="outlined"
             onClick={handleReset}
-            disabled={keranjang.length === 0 && !namaPembeli}
+            disabled={keranjang.length === 0 }
           >
             Reset
           </Button>
@@ -309,7 +291,7 @@ export default function CreateOrderKasir() {
             variant="contained"
             color="success"
             onClick={handleSimpanOrder}
-            disabled={keranjang.length === 0 || !namaPembeli.trim() || loading}
+            disabled={keranjang.length === 0 || loading}
             size="large"
           >
             {loading ? 'Memproses...' : 'Simpan Order'}
