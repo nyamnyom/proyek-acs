@@ -35,7 +35,7 @@ export default function NavbarKasir() {
     },
     {
       text: 'Riwayat Transaksi',
-      path: '/kasir/riwayat',
+      path: '/kasir/riwayat-transaksi',
       icon: <History />
     }
   ];
@@ -110,7 +110,6 @@ export default function NavbarKasir() {
             </ListItemButton>
           ))}
         </List>
-        
         
       </Drawer>
     </>

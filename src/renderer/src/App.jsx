@@ -4,11 +4,13 @@ import AdminMain from './components/Admin/main';
 import KasirMain from './components/Kasir/main';
 
 import CreateOrderKasir from './components/Kasir/CreateOrderKasir';
+import RiwayatTransaksi from './components/Kasir/RiwayatTransaksi';
 
 import OrderList from './components/Pengiriman/OrderList';
 import CreateOrder from './components/Pengiriman/CreateOrder';
 import KirimOrder from './components/Pengiriman/KirimOrder';
 import EditOrder from './components/Pengiriman/EditOrder'; 
+
 
 function App() {
   return (
@@ -29,6 +31,7 @@ function App() {
 
         {/* Kasir routes */}
         <Route path="/kasir/create-order-kasir" element={<CreateOrderKasir />} />
+        <Route path="/kasir/riwayat-transaksi" element={<RiwayatTransaksi />} />
 
       </Routes>
     </BrowserRouter>

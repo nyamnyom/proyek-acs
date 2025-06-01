@@ -246,7 +246,7 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS get_detail_nota;
 DELIMITER //
 CREATE PROCEDURE get_detail_nota(
-  IN htrans_nota INT
+   IN htrans_nota VARCHAR(12)
 )
 BEGIN
   SELECT * FROM detail_nota
@@ -364,5 +364,74 @@ DELIMITER ;
 
 
 -- KASIR PROSEDUR
+-- generate nota_id
+DROP FUNCTION IF EXISTS generate_nota_id;
+DELIMITER $$
+CREATE FUNCTION generate_nota_id() RETURNS VARCHAR(12)
+DETERMINISTIC
+BEGIN
+  DECLARE mmdd00 VARCHAR(8);
+  DECLARE counter INT DEFAULT 0;
+  DECLARE nota_id VARCHAR(12);
 
+  SET mmdd00 = DATE_FORMAT(NOW(), '%m%d00');
 
+  SELECT COUNT(*) + 1 INTO counter
+  FROM `nota`
+  WHERE DATE(created_at) = CURDATE();
+
+  SET nota_id = CONCAT(mmdd00, LPAD(counter, 3, '0'));
+
+  RETURN nota_id;
+END$$
+DELIMITER ;
+
+-- create nota 
+DROP PROCEDURE IF EXISTS create_nota;
+DELIMITER $$
+
+CREATE PROCEDURE create_nota (
+  IN p_total DECIMAL(10,2),
+  IN p_json_items JSON,
+  OUT p_nota_id VARCHAR(12)
+)
+BEGIN
+  DECLARE notaId VARCHAR(12);
+  DECLARE i INT DEFAULT 0;
+  DECLARE items_length INT;
+  DECLARE item_nama VARCHAR(100);
+  DECLARE item_harga DECIMAL(10,2);
+  DECLARE item_jumlah INT;
+  DECLARE item_total DECIMAL(10,2);
+
+  -- Generate ID nota
+  SET notaId = generate_nota_id();
+
+  -- Insert ke tabel nota (header)
+  INSERT INTO nota (id_htrans, harga_total)
+  VALUES (notaId, p_total);
+
+  -- Hitung panjang array JSON
+  SET items_length = JSON_LENGTH(p_json_items);
+
+  -- Loop setiap item dalam JSON
+  WHILE i < items_length DO
+	SET item_nama = JSON_UNQUOTE(JSON_EXTRACT(p_json_items, CONCAT('$[', i, '].nama_barang')));
+	SET item_harga = CAST(JSON_EXTRACT(p_json_items, CONCAT('$[', i, '].harga_barang')) AS DECIMAL(10,2));
+	SET item_jumlah = CAST(JSON_EXTRACT(p_json_items, CONCAT('$[', i, '].jumlah_barang')) AS UNSIGNED);
+	SET item_total = CAST(JSON_EXTRACT(p_json_items, CONCAT('$[', i, '].total_harga')) AS DECIMAL(10,2));
+
+    -- Insert ke detail nota
+    INSERT INTO detail_nota (
+      id_htrans, nama_barang, harga_barang, jumlah_barang, total_harga
+    ) VALUES (
+      notaId, item_nama, item_harga, item_jumlah, item_total
+    );
+
+    SET i = i + 1;
+  END WHILE;
+
+  -- Set output
+  SET p_nota_id = notaId;
+END$$
+DELIMITER ;
