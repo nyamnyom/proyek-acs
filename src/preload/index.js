@@ -21,11 +21,14 @@ const api = {
   deleteBarang: (id) => 
   ipcRenderer.invoke("deleteBarang", id),
 
-  getNota: () => ipcRenderer.invoke('getNota'),
-  getDetailNota: (notaId) => ipcRenderer.invoke('getDetailNota', notaId),
+  getAllNota: () => ipcRenderer.invoke('getAllNota'),
+  getDetailNota: (idNota) => ipcRenderer.invoke('getDetailNota', idNota),
+  getNotaById: (idNota) => ipcRenderer.invoke('getNotaById', idNota),
   getAllOrder: () => ipcRenderer.invoke('getAllOrder'),
   getDetailOrder: (orderId) => ipcRenderer.invoke('getDetailOrder', orderId),
-  getPengiriman: () => ipcRenderer.invoke('getPengiriman'),
+  getOrderByIdAdmin: (orderId) => ipcRenderer.invoke('getOrderByIdAdmin', orderId),
+  getAllPengiriman: () => ipcRenderer.invoke('getAllPengiriman'),
+  getPengirimanById: (idPengiriman) => ipcRenderer.invoke('getPengirimanById', {idPengiriman}),
   
   //kasir
   createNota: (total, keranjang) => ipcRenderer.invoke('createNota', { total, keranjang }),

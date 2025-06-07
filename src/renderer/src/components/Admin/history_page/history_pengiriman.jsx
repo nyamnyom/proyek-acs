@@ -7,11 +7,11 @@ export default function HistoryPengiriman() {
     
     useEffect(() => {
         fetchKiriman();
-    })
+    }, [])
 
     async function fetchKiriman(){
         try {
-          const data = await window.api.getPengiriman();
+          const data = await window.api.getAllPengiriman();
           setKiriman(data);
           console.log(data)
         } catch (err) {

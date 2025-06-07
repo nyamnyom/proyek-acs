@@ -144,9 +144,9 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS UpdateOrderStatus;
 DELIMITER //
-
-CREATE OR REPLACE PROCEDURE UpdateOrderStatus(
+CREATE PROCEDURE UpdateOrderStatus(
   IN orderId VARCHAR(20),
   IN newStatus VARCHAR(20),
   IN namaPengirim VARCHAR(100)
@@ -234,12 +234,23 @@ END $$
 DELIMITER ;
 
 -- History
-DROP PROCEDURE IF EXISTS get_nota;
+DROP PROCEDURE IF EXISTS get_all_nota;
 DELIMITER //
-CREATE PROCEDURE get_nota()
+CREATE PROCEDURE get_all_nota()
 BEGIN
   SELECT * FROM nota
   ORDER BY created_at DESC;
+END//
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS get_nota_by_id;
+DELIMITER //
+CREATE PROCEDURE get_nota_by_id(
+  IN htrans_nota INT
+)
+BEGIN
+  SELECT * FROM nota
+  WHERE id_htrans = htrans_nota;
 END//
 DELIMITER ;
 
@@ -264,6 +275,17 @@ BEGIN
 END//
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS get_order_by_id;
+DELIMITER //
+CREATE PROCEDURE get_order_by_id(
+  IN htrans_order INT
+)
+BEGIN
+  SELECT * FROM `order`
+  WHERE id = htrans_order;
+END//
+DELIMITER ;
+
 DROP PROCEDURE IF EXISTS get_detail_order;
 DELIMITER //
 CREATE PROCEDURE get_detail_order(
@@ -276,12 +298,24 @@ END//
 DELIMITER ;
 
 
-DROP PROCEDURE IF EXISTS get_pengiriman;
+DROP PROCEDURE IF EXISTS get_all_pengiriman;
 DELIMITER //
-CREATE PROCEDURE get_pengiriman()
+CREATE PROCEDURE get_all_pengiriman()
 BEGIN
   SELECT p.*, o.* FROM pengiriman p
   JOIN `order` o ON o.id = p.id_order;
+END//
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS get_pengiriman_by_id;
+DELIMITER //
+CREATE PROCEDURE get_pengiriman_by_id(
+  IN htrans_pengiriman INT
+)
+BEGIN
+  SELECT p.*, o.* FROM pengiriman p
+  JOIN `order` o ON o.id = p.id_order
+  WHERE id_pengiriman = htrans_pengiriman;
 END//
 DELIMITER ;
 
@@ -314,9 +348,9 @@ DELIMITER ;
 
 
 -- ngene lo
+DROP PROCEDURE IF EXISTS update_jumlah_barang_order_detail;
 DELIMITER $$
-
-CREATE OR REPLACE PROCEDURE update_jumlah_barang_order_detail(
+CREATE PROCEDURE update_jumlah_barang_order_detail(
   IN p_id_order VARCHAR(12),
   IN p_nama_barang VARCHAR(100),
   IN p_jumlah_baru INT
@@ -343,8 +377,8 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS get_order_with_detail;
 DELIMITER $$
-
 CREATE PROCEDURE get_order_with_detail(
   IN p_id_order VARCHAR(12)
 )

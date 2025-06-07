@@ -1,9 +1,11 @@
 import { Box, Button, Chip, Container, Stack } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function HistoryOrder() {
     const [orders, setOrders] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchOrder();
@@ -19,12 +21,8 @@ export default function HistoryOrder() {
         }
     }
 
-    const handleEdit = function(){
-        
-    }
-
-    const handleDelete = function(){
-
+    const handleView = function(idOrder){
+        navigate("/admin/nota-report", {replace: true});
     }
 
     const columns = [
@@ -56,18 +54,9 @@ export default function HistoryOrder() {
               <Button
                 variant="contained"
                 color="primary"
-                size="small"
-                onClick={() => handleEdit((params.row))}
+                onClick={() => handleView((params.row.id))}
               >
-                Edit
-              </Button>
-              <Button
-                variant="contained"
-                color="error"
-                size="small"
-                onClick={() => handleDelete((params.row.id) )}
-              >
-                Delete
+                View Details
               </Button>
             </Stack>
           ),

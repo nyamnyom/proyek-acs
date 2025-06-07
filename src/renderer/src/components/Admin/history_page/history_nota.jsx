@@ -1,30 +1,28 @@
 import { Box, Button, Container, Stack } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function HistoryNota() {
+export default function HistoryNota(props) {
   const [nota, setNota] = useState([]);
+  const navigate = useNavigate();
       
       useEffect(() => {
           fetchNota();
-      })
+      }, [])
   
       async function fetchNota(){
           try {
-            const data = await window.api.getNota();
+            const data = await window.api.getAllNota();
             setNota(data);
             console.log(data)
           } catch (err) {
             console.error(err);
           }
       }
-  
-      const handleEdit = function(){
-          
-      }
-  
-      const handleDelete = function(){
-  
+
+      const handleView = function(idNota) {
+        navigate(`/admin/nota-report/${idNota}`);
       }
   
       const columns = [
@@ -38,19 +36,10 @@ export default function HistoryNota() {
               <Stack direction="row" spacing={2}>
                 <Button
                   variant="contained"
-                  color="warning"
-                  size="small"
-                  onClick={() => handleEdit((params.row))}
+                  color="primary"
+                  onClick={() => handleView((params.row.id_htrans))}
                 >
-                  Edit
-                </Button>
-                <Button
-                  variant="contained"
-                  color="error"
-                  size="small"
-                  onClick={() => handleDelete((params.row.id_htrans) )}
-                >
-                  Delete
+                  View Details
                 </Button>
               </Stack>
             ),
@@ -70,6 +59,7 @@ export default function HistoryNota() {
                   }}
                 />
               </Box>
+              <Button onClick={() => props.setPage("report_nota")}>Report</Button>
           </Container>
       );
 }

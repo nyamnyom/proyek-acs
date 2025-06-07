@@ -5,6 +5,7 @@ import User from "./user_page/User";
 import Barang from "./barang_page/Barang";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import HistoryOrder from './history_page/history_page';
+import NotaReport from './Report/nota';
 
 const drawerWidth = 240;
 const options = ['History Order', 'History Kirim', 'History Nota'];
@@ -86,19 +87,7 @@ export default function main() {
         <Toolbar />
           {page == "user" && (<User></User>)}
           {page == "barang" && (<Barang></Barang>)}
-          {page === "history" && <HistoryOrder defaultTab={selectedHistoryTab} setSelectedTab={setSelectedHistoryTab} />}
-          {page === "history_kirim" && (
-            <>
-              <Typography variant="h4" gutterBottom>History Kirim</Typography>
-              <Typography>Isi halaman History Kirim</Typography>
-            </>
-          )}
-          {page === "history_nota" && (
-            <>
-              <Typography variant="h4" gutterBottom>History Nota</Typography>
-              <Typography>Isi halaman History Nota</Typography>
-            </>
-          )}
+          {page === "history" && <HistoryOrder defaultTab={selectedHistoryTab} setSelectedTab={setSelectedHistoryTab}/>}
       </Box>
     </Box>
   );

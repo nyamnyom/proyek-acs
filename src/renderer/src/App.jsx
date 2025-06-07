@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate, useParams } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useParams, createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Login from './components/Login';
 import AdminMain from './components/Admin/main';
 import KasirMain from './components/Kasir/main';
@@ -9,30 +9,66 @@ import OrderList from './components/Pengiriman/OrderList';
 import CreateOrder from './components/Pengiriman/CreateOrder';
 import KirimOrder from './components/Pengiriman/KirimOrder';
 import EditOrder from './components/Pengiriman/EditOrder'; 
+import NotaReport, { loaderNotaReport } from './components/Admin/Report/nota';
+import OrderReport, { loaderOrderReport } from './components/Admin/Report/order';
+import PengirimanReport, { loaderPengirimanReport } from './components/Admin/Report/pengiriman';
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/admin" element={<AdminMain />} />
-        <Route path="/kasir" element={<KasirMain />} />
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Login />,
+    },
+    {
+      path: "/admin",
+      element: <AdminMain />,
+    },
+    {
+      path: "/kasir",
+      element: <KasirMain />,
+    },
+    {
+      path: "/admin/nota-report/:idNota",
+      element: <NotaReport />,
+      loader: loaderNotaReport,
+    },
+    {
+      path: "/admin/order-report/:idOrder",
+      element: <OrderReport />,
+      loader: loaderOrderReport,
+    },
+    {
+      path: "/admin/pengiriman-report/:idPengiriman",
+      element: <PengirimanReport />,
+      loader: loaderPengirimanReport,
+    },
+    {
+      path: "/pengiriman",
+      element: <Navigate to="/pengiriman/order" replace />,
+    },
+    {
+      path: "/pengiriman/order",
+      element: <OrderList />,
+    },
+    {
+      path: "/pengiriman/create",
+      element: <CreateOrder />,
+    },
+    {
+      path: "/pengiriman/kirim",
+      element: <KirimOrder />,
+    },
+    {
+      path: "/pengiriman/edit/:idOrder",
+      element: <EditOrderWrapper />,
+    },
+    {
+      path: "/kasir/create-order-kasir",
+      element: <CreateOrderKasir />,
+    },
+  ]);
 
-        {/* Redirect jika hanya buka /pengiriman */}
-        <Route path="/pengiriman" element={<Navigate to="/pengiriman/order" replace />} />
-
-        {/* Pengiriman routes */}
-        <Route path="/pengiriman/order" element={<OrderList />} />
-        <Route path="/pengiriman/create" element={<CreateOrder />} />
-        <Route path="/pengiriman/kirim" element={<KirimOrder />} />
-        <Route path="/pengiriman/edit/:idOrder" element={<EditOrderWrapper />} />
-
-        {/* Kasir routes */}
-        <Route path="/kasir/create-order-kasir" element={<CreateOrderKasir />} />
-
-      </Routes>
-    </BrowserRouter>
-  );
+  return <RouterProvider router={router} />;
 }
 function EditOrderWrapper() {
   const { idOrder } = useParams();

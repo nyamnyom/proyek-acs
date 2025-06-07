@@ -9,13 +9,18 @@ import loginUser ,{  createOrder,
    getUser, insertUser, 
    deleteUser, deleteBarang, 
    editBarang, editUser, 
-   insertBarang, getNota, 
+   insertBarang,  
    getDetailNota, getAllOrder, 
-   getDetailOrder, getPengiriman, 
+   getDetailOrder,
    getOrderById, 
    updateJumlahBarangOrderDetail, 
    updateOrderNamaPembeli, 
-   createNota} from './model.js';
+   createNota,
+   getAllNota,
+   getAllPengiriman,
+   getNotaById,
+   getOrderByIdAdmin,
+   getPengirimanById} from './model.js';
 
 function createWindow() {
   // Create the browser window.
@@ -95,11 +100,14 @@ ipcMain.handle("insertBarang", insertBarang);
 ipcMain.handle("editBarang", editBarang);
 ipcMain.handle("deleteBarang", deleteBarang);
 
-ipcMain.handle('getNota', getNota);
+ipcMain.handle('getAllNota', getAllNota);
+ipcMain.handle('getNotaById', getNotaById);
 ipcMain.handle('getDetailNota', getDetailNota);
 ipcMain.handle('getAllOrder', getAllOrder);
+ipcMain.handle('getOrderByIdAdmin', getOrderByIdAdmin);
 ipcMain.handle('getDetailOrder', getDetailOrder);
-ipcMain.handle('getPengiriman', getPengiriman);
+ipcMain.handle('getAllPengiriman', getAllPengiriman);
+ipcMain.handle('getPengirimanById', getPengirimanById);
 
 
 // KASIR

@@ -121,24 +121,38 @@ export async function getAllOrder(){
     const [[result, meta], field] = await pool.query('call get_all_order()');
     return result;
 }
+export async function getOrderByIdAdmin(event, idOrder){
+    const [[result, meta], field] = await pool.query('call get_order_by_id(?)', [idOrder]);
+    return result[0];
+}
 
-export async function getDetailOrder(event, orderId){
-    const [[result, meta], field] = await pool.query('call get_detail_order(?)', [orderId]);
+export async function getDetailOrder(event, idOrder){
+    const [[result, meta], field] = await pool.query('call get_detail_order(?)', [idOrder]);
     return result;
 }
 
-export async function getPengiriman(){
-    const [[result, meta], field] = await pool.query('call get_pengiriman()');
+export async function getAllPengiriman(){
+    const [[result, meta], field] = await pool.query('call get_all_pengiriman()');
     return result;
 }
 
-export async function getNota(){
-    const [[result, meta], field] = await pool.query('call get_nota()');
+export async function getPengirimanById(event, idPengiriman){
+    const [[result, meta], field] = await pool.query('call get_pengiriman_by_id(?)', [idPengiriman]);
+    return result[0];
+}
+
+export async function getAllNota(){
+    const [[result, meta], field] = await pool.query('call get_all_nota()');
     return result;
 }
 
-export async function getDetailNota(event, notaId){
-    const [[result, meta], field] = await pool.query('call get_detail_nota(?)', [notaId]);
+export async function getNotaById(event, idNota){
+    const [[result, meta], field] = await pool.query('call get_nota_by_id(?)', [idNota]);
+    return result[0];
+}
+
+export async function getDetailNota(event, idNota){
+    const [[result, meta], field] = await pool.query('call get_detail_nota(?)', [idNota]);
     return result;
 }
 
