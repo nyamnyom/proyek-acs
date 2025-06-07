@@ -3,6 +3,7 @@ import { Box, Toolbar } from '@mui/material';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import NavbarKasir from './NavbarKasir';
 import CreateOrderKasir from './CreateOrderKasir';
+import RiwayatTransaksi from './RiwayatTransaksi';
 // Import halaman kasir lain jika ada
 
 export default function MainKasir() {
@@ -20,6 +21,7 @@ export default function MainKasir() {
           
           {/* Routing halaman-halaman kasir */}
           <Route path="create-order-kasir" element={<CreateOrderKasir />} />
+          <Route path="riwayat-transaksi" element={<RiwayatTransaksi />} />
           {/* Tambahkan route lain di sini jika perlu */}
         </Routes>
       </Box>

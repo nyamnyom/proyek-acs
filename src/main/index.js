@@ -121,6 +121,7 @@ ipcMain.handle('createNota', async (event, { total, keranjang }) => {
 });
 
 
+
 // PENGIRIMAN 
 ipcMain.handle('getOrder', getOrder)
 ipcMain.handle('getBarang', getBarang)

@@ -154,7 +154,6 @@ export default function CreateOrderKasir() {
 
         {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 
-
         <Paper elevation={3} sx={{ p: 3, mb: 3 }}>
           <Typography variant="h6" gutterBottom>
             Tambah Barang
