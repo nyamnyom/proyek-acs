@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS detail_nota (
   total_harga DECIMAL(10,2),
   FOREIGN KEY (id_htrans) REFERENCES nota(id_htrans)
 );
-DROP TABLE IF EXISTS detail_nota;
+
 
 -- TABEL ORDER
 

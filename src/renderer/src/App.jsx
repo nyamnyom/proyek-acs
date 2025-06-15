@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate, useParams, createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Login from './components/Login';
 import AdminMain from './components/Admin/main';
-import KasirMain from './components/Kasir/main';
 
 import CreateOrderKasir from './components/Kasir/CreateOrderKasir';
 import RiwayatTransaksi from './components/Kasir/RiwayatTransaksi';
@@ -13,6 +12,12 @@ import EditOrder from './components/Pengiriman/EditOrder';
 import NotaReport, { loaderNotaReport } from './components/Admin/Report/nota';
 import OrderReport, { loaderOrderReport } from './components/Admin/Report/order';
 import PengirimanReport, { loaderPengirimanReport } from './components/Admin/Report/pengiriman';
+
+// Komponen KasirMain yang hilang
+function KasirMain() {
+  // Redirect langsung ke halaman utama kasir (CreateOrderKasir)
+  return <Navigate to="/kasir/create-order-kasir" replace />;
+}
 
 function App() {
   const router = createBrowserRouter([
@@ -28,6 +33,16 @@ function App() {
       path: "/kasir",
       element: <KasirMain />,
     },
+    // Routes untuk kasir
+    {
+      path: "/kasir/create-order-kasir",
+      element: <CreateOrderKasir />,
+    },
+    {
+      path: "/kasir/riwayat-transaksi", 
+      element: <RiwayatTransaksi />,
+    },
+    // Route untuk admin reports
     {
       path: "/admin/nota-report/:idNota",
       element: <NotaReport />,
@@ -43,6 +58,7 @@ function App() {
       element: <PengirimanReport />,
       loader: loaderPengirimanReport,
     },
+    // Routes untuk pengiriman
     {
       path: "/pengiriman",
       element: <Navigate to="/pengiriman/order" replace />,
@@ -63,16 +79,14 @@ function App() {
       path: "/pengiriman/edit/:idOrder",
       element: <EditOrderWrapper />,
     },
-    {
-      path: "/kasir/create-order-kasir",
-      element: <CreateOrderKasir />,
-    },
   ]);
 
   return <RouterProvider router={router} />;
 }
+
 function EditOrderWrapper() {
   const { idOrder } = useParams();
   return <EditOrder idOrder={idOrder} />;
 }
+
 export default App;
