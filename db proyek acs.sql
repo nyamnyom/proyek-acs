@@ -55,6 +55,7 @@ CREATE TABLE IF NOT EXISTS detail_nota (
   FOREIGN KEY (id_htrans) REFERENCES nota(id_htrans)
 );
 
+
 -- TABEL ORDER
 DROP TABLE IF EXISTS `order`;
 CREATE TABLE IF NOT EXISTS `order` (

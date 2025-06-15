@@ -24,14 +24,9 @@ export default function NavbarKasir() {
 
   const menuItems = [
     {
-    text: 'Buat Order',
-    path: '/kasir/create-order-kasir',
-    icon: <ShoppingCart />
-    },
-    {
-      text: 'Cetak Nota',
-      path: '/kasir/cetak-nota', 
-      icon: <Receipt />
+      text: 'Buat Order',
+      path: '/kasir/create-order-kasir',
+      icon: <ShoppingCart />
     },
     {
       text: 'Riwayat Transaksi',
