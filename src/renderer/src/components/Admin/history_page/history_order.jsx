@@ -22,7 +22,7 @@ export default function HistoryOrder() {
     }
 
     const handleView = function(idOrder){
-        navigate("/admin/nota-report", {replace: true});
+        navigate(`/admin/order-report/${idOrder}`);
     }
 
     const columns = [
@@ -31,14 +31,14 @@ export default function HistoryOrder() {
         { field: "harga_total", headerName: "Total Pembelian", type: 'number', flex: 1 },
         {
             field: "status",
-            headerName: "Status Pembayaran",
+            headerName: "Status Pengiriman",
             flex: 1,
             renderCell: (params) => {
-                const bayar = params.value?.toLowerCase() === "sudah";
+                const kirim = params.value?.toLowerCase() === "sudah";
                 return (
                 <Chip
-                    label={bayar ? "Sudah Bayar" : "Belum Bayar"}
-                    color={bayar ? "success" : "error"}
+                    label={kirim ? "Sudah Terkirim" : "Belum Terkirim"}
+                    color={kirim ? "success" : "error"}
                     size="small"
                     variant="outlined"
                 />

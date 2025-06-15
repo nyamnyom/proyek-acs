@@ -1,4 +1,4 @@
-.nota-container {
+.report-container {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding: 30px;
   max-width: 850px;
@@ -9,7 +9,7 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 }
 
-.nota-title {
+.report-title {
   text-align: center;
   font-size: 24px;
   color: #2c3e50;
@@ -17,22 +17,24 @@
   font-weight: 600;
 }
 
-.nota-header {
-  display: flex;
-  justify-content: space-between;
+.report-header {
   font-size: 15px;
   margin-bottom: 20px;
   color: #34495e;
   font-weight: 500;
 }
 
-.nota-table {
+.header-content{
+  margin-bottom: 10px;
+}
+
+.report-table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 25px;
 }
 
-.nota-table th {
+.report-table th {
   background-color: #3498db;
   color: #fff;
   padding: 12px;
@@ -41,18 +43,18 @@
   font-size: 14px;
 }
 
-.nota-table td {
+.report-table td {
   border-bottom: 1px solid #ddd;
   padding: 10px;
   font-size: 14px;
   color: #333;
 }
 
-.nota-table tr:hover {
+.report-table tr:hover {
   background-color: #f1f9ff;
 }
 
-.nota-total {
+.report-total {
   text-align: right;
   font-size: 18px;
   font-weight: bold;
@@ -60,16 +62,20 @@
   margin-top: 10px;
 }
 
-.nota-footer {
+.report-footer {
   text-align: center;
   font-size: 13px;
   color: #999;
   margin-top: 40px;
 }
 
-.nota-buttons {
+.report-buttons {
   display: flex;
   justify-content: flex-start;
   gap: 10px;
   margin-bottom: 20px;
+}
+
+.text-right {
+  text-align: right !important;
 }

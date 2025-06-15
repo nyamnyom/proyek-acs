@@ -37,14 +37,14 @@ export default function NotaReport () {
 
 
   return (
-    <div className="nota-container">
-      <div className="nota-buttons">
+    <div className="report-container">
+      <div className="report-buttons">
         <Button variant='contained' color='error' onClick={() => navigate(-1)}>Back</Button>
         <Button variant='contained' color='success' >Print</Button>
       </div>
-      <h2 className="nota-title">Laporan Nota Pembelian</h2>
+      <h2 className="report-title">Detail Nota Pembelian</h2>
 
-      <div className="nota-header">
+      <div className="report-header">
         <div>
           <strong>ID Nota:</strong> {nota.id_htrans}
         </div>
@@ -57,33 +57,33 @@ export default function NotaReport () {
         </div>
       </div>
 
-      <table className="nota-table">
+      <table className="report-table">
         <thead>
           <tr>
             <th>Nama Barang</th>
-            <th>Harga Barang</th>
-            <th>Jumlah</th>
-            <th>Total Harga</th>
+            <th className="text-right">Harga Barang</th>
+            <th className="text-right">Jumlah</th>
+            <th className="text-right">Total Harga</th>
           </tr>
         </thead>
         <tbody>
           {details.map((item, index) => (
             <tr key={index}>
               <td>{item.nama_barang}</td>
-              <td>Rp {item.harga_barang}</td>
-              <td>{item.jumlah_barang}</td>
-              <td>Rp {item.total_harga}</td>
+              <td className="text-right">Rp {item.harga_barang}</td>
+              <td className="text-right">{item.jumlah_barang}</td>
+              <td className="text-right">Rp {item.total_harga}</td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      <div className="nota-total">
+      <div className="report-total">
         Total: Rp {nota.harga_total}
       </div>
 
-      <div className="nota-footer">
-        Terima kasih telah berbelanja.
+      <div className="report-footer">
+        Toko Kelontong Maju Jaya
       </div>
     </div>
   );

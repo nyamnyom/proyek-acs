@@ -90,6 +90,6 @@ CREATE TABLE IF NOT EXISTS pengiriman (
 INSERT INTO `order` (id, harga_total, nama_pembeli) VALUES
 ('250515001',100000, 'erick');
 
-INSERT INTO order_detail(id_order, nama_barang, jumlah_barang, total_harga) VALUES
-('250515001', 'aqua galon', 2, 30000),
-('250515001', 'cleo galon', 5, 70000);
+INSERT INTO order_detail(id_order, nama_barang, jumlah_barang, total_harga, harga_barang) VALUES
+('250515001', 'aqua galon', 2, 30000, 15000),
+('250515001', 'cleo galon', 5, 70000, 14000);

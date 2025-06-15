@@ -292,8 +292,8 @@ CREATE PROCEDURE get_detail_order(
   IN htrans_order INT
 )
 BEGIN
-  SELECT * FROM detail_order
-  WHERE id_htrans = htrans_order;
+  SELECT * FROM order_detail
+  WHERE id_order = htrans_order;
 END//
 DELIMITER ;
 
