@@ -28,7 +28,7 @@ const api = {
   getDetailOrder: (orderId) => ipcRenderer.invoke('getDetailOrder', orderId),
   getOrderByIdAdmin: (orderId) => ipcRenderer.invoke('getOrderByIdAdmin', orderId),
   getAllPengiriman: () => ipcRenderer.invoke('getAllPengiriman'),
-  getPengirimanById: (idPengiriman) => ipcRenderer.invoke('getPengirimanById', {idPengiriman}),
+  getPengirimanById: (idPengiriman) => ipcRenderer.invoke('getPengirimanById', idPengiriman),
   
   //kasir
   createNota: (total, keranjang) => ipcRenderer.invoke('createNota', { total, keranjang }),
@@ -47,6 +47,10 @@ const api = {
   updateOrderNamaPembeli: (idOrder, namaPembeli, totalHarga) =>
     ipcRenderer.invoke('update-nama-pembeli', idOrder, namaPembeli, totalHarga),
 
+
+  printReport: function () {
+    return ipcRenderer.invoke("printReport");
+  },
 }
 
 // Expose API

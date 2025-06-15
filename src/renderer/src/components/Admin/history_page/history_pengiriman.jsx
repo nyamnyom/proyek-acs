@@ -1,9 +1,11 @@
 import { Box, Button, Chip, Container, Stack } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function HistoryPengiriman() {
     const [kiriman, setKiriman] = useState([]);
+    const navigate = useNavigate();
     
     useEffect(() => {
         fetchKiriman();
@@ -19,12 +21,8 @@ export default function HistoryPengiriman() {
         }
     }
 
-    const handleEdit = function(){
-        
-    }
-
-    const handleDelete = function(){
-
+    const handleView = function(idPengiriman){
+        navigate(`/admin/pengiriman-report/${idPengiriman}`);
     }
 
     const columns = [
@@ -56,19 +54,10 @@ export default function HistoryPengiriman() {
             <Stack direction="row" spacing={2}>
               <Button
                 variant="contained"
-                color="warning"
-                size="small"
-                onClick={() => handleEdit((params.row))}
+                color="primary"
+                onClick={() => handleView((params.row.id_order))}
               >
-                Edit
-              </Button>
-              <Button
-                variant="contained"
-                color="error"
-                size="small"
-                onClick={() => handleDelete((params.row.id_pengiriman) )}
-              >
-                Delete
+                View Details
               </Button>
             </Stack>
           ),

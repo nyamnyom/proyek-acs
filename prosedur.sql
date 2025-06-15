@@ -315,7 +315,7 @@ CREATE PROCEDURE get_pengiriman_by_id(
 BEGIN
   SELECT p.*, o.* FROM pengiriman p
   JOIN `order` o ON o.id = p.id_order
-  WHERE id_pengiriman = htrans_pengiriman;
+  WHERE o.id = htrans_pengiriman;
 END//
 DELIMITER ;
 

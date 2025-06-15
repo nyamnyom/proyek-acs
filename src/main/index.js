@@ -1,7 +1,8 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import fs from "fs";
 import loginUser ,{  createOrder, 
   getBarang, getOrder, 
   getPendingOrders, 
@@ -160,6 +161,27 @@ ipcMain.handle('updateJumlahBarangOrderDetail', async (event, idOrder, namaBaran
 ipcMain.handle('update-nama-pembeli', async (event, idOrder, namaPembeli,totalHarga) => {
   return await updateOrderNamaPembeli(idOrder, namaPembeli, totalHarga);
 });
+
+ipcMain.handle("printReport", function (event) {
+      const savePath = dialog.showSaveDialogSync({
+        title: "Save report",
+        defaultPath: "report.pdf",
+      });
+      if (savePath) {
+        const win = BrowserWindow.fromWebContents(event.sender);
+        win.webContents
+          .printToPDF({ printBackground: true, pageSize: "A4" })
+          .then((data) => {
+            fs.writeFile(savePath, data, (error) => {
+              if (error) throw error;
+              console.log(`Report successfully saved in ${savePath}`);
+            });
+          })
+          .catch((err) => {
+            throw err;
+          });
+      }
+  });
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {

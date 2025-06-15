@@ -33,14 +33,20 @@ export default function NotaReport () {
   }, [idNota]);
   console.log(nota);
 
-  if (!nota) return <p>Loading...</p>;
+  if (!nota) return <>
+        <Button variant='contained' color='error' onClick={() => navigate(-1)}>Back</Button>
+        <p>Loading...</p>
+  </>;
 
+    async function printReport() {
+        await window.api.printReport();
+    }
 
   return (
     <div className="report-container">
-      <div className="report-buttons">
+      <div className="report-buttons no-print">
         <Button variant='contained' color='error' onClick={() => navigate(-1)}>Back</Button>
-        <Button variant='contained' color='success' >Print</Button>
+        <Button variant='contained' color='success' onClick={() => printReport()}>Print</Button>
       </div>
       <h2 className="report-title">Detail Nota Pembelian</h2>
 

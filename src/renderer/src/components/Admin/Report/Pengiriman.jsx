@@ -1,4 +1,7 @@
-import { useLoaderData } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLoaderData, useNavigate } from "react-router-dom";
+import '../../../../assets/reportPengiriman.css';
+import { Button, Chip } from "@mui/material";
 
 export function loaderPengirimanReport ({params}) {
     return params.idPengiriman;
@@ -7,90 +10,76 @@ export function loaderPengirimanReport ({params}) {
 export default function PengirimanReport () {
     const idPengiriman = useLoaderData();
     const [kirim, setKirim] = useState(null);
-    const [details, setDetails] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
         try {
-            const dataNota = await window.api.getOrderByIdAdmin(idOrder);
-            console.log(dataNota)
-            setKirim(dataNota);
-            const dataDetails = await window.api.getDetailOrder(idOrder);
-            console.log(dataDetails)
-            setDetails(dataDetails);
+            console.log(idPengiriman);
+            const dataPengiriman = await window.api.getPengirimanById(idPengiriman);
+            console.log(dataPengiriman)
+            setKirim(dataPengiriman);
         } catch (err) {
             console.error("Gagal mengambil data:", err);
         }
         };
 
-        if (idOrder) {
+        if (idPengiriman) {
         fetchData();
         }
-    }, [idOrder]);
+    }, [idPengiriman]);
     console.log(kirim);
 
-    if (!kirim) return <p>Loading...</p>;
+    if (!kirim) return <>
+        <Button variant='contained' color='error' onClick={() => navigate(-1)}>Back</Button>
+        <p>Loading...</p>
+    </>;
+
+    async function printReport() {
+        await window.api.printReport();
+    }
 
     return(
-        <div className="report-container">
-            <div className="report-buttons">
+        <div class="report-container">
+            <div className="report-buttons no-print">
                 <Button variant='contained' color='error' onClick={() => navigate(-1)}>Back</Button>
-                <Button variant='contained' color='success' >Print</Button>
+                <Button variant='contained' color='success' onClick={() => printReport()}>Print</Button>
             </div>
-            <h2 className="report-title">Detail Order</h2>
+            <h2 class="report-title">Detail Pengiriman</h2>
 
-            <div className="report-header">
-                <div className="header-content">
-                    <strong>ID Order:</strong> {kirim.id}
-                </div>
-                <div className="header-content">
-                    <strong>Nama Pembeli:</strong> {kirim.nama_pembeli}
-                </div>
-                <div className="header-content">
-                    <strong>Tanggal Order:</strong> {new Date(kirim.created_at).toLocaleDateString('id-ID', {
+            <div class="report-section">
+            <div class="report-row">
+                <span class="label">ID Order:</span>
+                <span class="value"> {kirim.id}</span>
+            </div>
+            <div class="report-row">
+                <span class="label">Nama Pembeli:</span>
+                <span class="value"> {kirim.nama_pembeli}</span>
+            </div>
+            <div class="report-row">
+                <span class="label">Nama Pengirim:</span>
+                <span class="value"> {kirim.nama_pengirim}</span>
+            </div>
+            <div class="report-row">
+                <span class="label">Total Pembelian:</span>
+                <span class="value"> Rp {kirim.harga_total.toLocaleString('id-ID')}</span>
+            </div>
+            <div class="report-row">
+                <span class="label">Status Pembayaran:</span>
+                <span class="value"> {<Chip
+                                                        label={kirim.status == "belum" ? "Belum Dikirim" : "Sudah Dikirim"}
+                                                        color={kirim.status == "belum" ? "error" : "success"}
+                                                        size="small"
+                                                        variant="outlined"
+                                                    />}</span>
+            </div>
+            <div class="report-footer">
+                <span><strong>Tanggal:</strong> {new Date(kirim.created_at).toLocaleDateString('id-ID', {
                                             day: 'numeric',
                                             month: 'long',
                                             year: 'numeric'
-                                            })}
-                </div>
-                <div className="header-content">
-                    <strong>Status Terkirim:</strong> {<Chip
-                                                            label={kirim.status == "belum" ? "Belum Dikirim" : "Sudah Dikirim"}
-                                                            color={kirim.status == "belum" ? "error" : "success"}
-                                                            size="small"
-                                                            variant="outlined"
-                                                        />}
-                </div>
+                                            })}</span>
             </div>
-
-            <table className="report-table">
-                <thead>
-                    <tr>
-                        <th>Nama Barang</th>
-                        <th className="text-right">Harga Barang</th>
-                        <th className="text-right">Jumlah</th>
-                        <th className="text-right">Total Harga</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {details.map((item, index) => (
-                        <tr key={index}>
-                            <td>{item.nama_barang}</td>
-                            <td className="text-right">Rp {item.harga_barang}</td>
-                            <td className="text-right">{item.jumlah_barang}</td>
-                            <td className="text-right">Rp {item.total_harga}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-
-            <div className="report-total">
-                Total: Rp {kirim.harga_total}
-            </div>
-
-            <div className="report-footer">
-                Toko Kelontong Maju Jaya
             </div>
         </div>
     );
