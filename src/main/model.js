@@ -136,6 +136,11 @@ export async function getAllPengiriman(){
     return result;
 }
 
+export async function getAllOrderDetail(){
+    const [[result, meta], field] = await pool.query('call get_all_order_detail()');
+    return result;
+}
+
 export async function getPengirimanById(event, idPengiriman){
     const [[result, meta], field] = await pool.query('call get_pengiriman_by_id(?)', [idPengiriman]);
     return result[0];

@@ -11,7 +11,9 @@ import loginUser ,{  createOrder,
    deleteUser, deleteBarang, 
    editBarang, editUser, 
    insertBarang,  
-   getDetailNota, getAllOrder, 
+   getDetailNota, 
+   getAllOrder, 
+   getAllOrderDetail, 
    getDetailOrder,
    getOrderById, 
    updateJumlahBarangOrderDetail, 
@@ -105,6 +107,7 @@ ipcMain.handle('getAllNota', getAllNota);
 ipcMain.handle('getNotaById', getNotaById);
 ipcMain.handle('getDetailNota', getDetailNota);
 ipcMain.handle('getAllOrder', getAllOrder);
+ipcMain.handle('getAllOrderDetail', getAllOrderDetail);
 ipcMain.handle('getOrderByIdAdmin', getOrderByIdAdmin);
 ipcMain.handle('getDetailOrder', getDetailOrder);
 ipcMain.handle('getAllPengiriman', getAllPengiriman);

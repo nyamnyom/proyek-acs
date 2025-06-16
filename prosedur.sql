@@ -265,6 +265,16 @@ BEGIN
 END//
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS get_all_order_detail;
+DELIMITER //
+CREATE PROCEDURE get_all_order_detail()
+BEGIN
+  SELECT b.nama_barang, COALESCE(o.jumlah_barang, 0) AS sold
+  FROM barang b
+  LEFT JOIN order_detail o ON o.nama_barang = b.nama_barang
+  ORDER BY o.jumlah_barang DESC;
+END//
+DELIMITER ;
 
 DROP PROCEDURE IF EXISTS get_all_order;
 DELIMITER //
@@ -469,3 +479,7 @@ BEGIN
   SET p_nota_id = notaId;
 END$$
 DELIMITER ;
+
+
+
+
