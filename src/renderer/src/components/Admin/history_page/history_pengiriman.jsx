@@ -35,11 +35,12 @@ export default function HistoryPengiriman() {
             headerName: "Status Pembayaran",
             flex: 1,
             renderCell: (params) => {
-                const bayar = params.value?.toLowerCase() === "sudah";
+              console.log(params);
+                const kirim = params.row.status == "belum";
                 return (
                 <Chip
-                    label={bayar ? "Sudah Bayar" : "Belum Bayar"}
-                    color={bayar ? "success" : "error"}
+                    label={kirim ? "Belum Dikirim" : "Sudah Dikirim"}
+                    color={kirim ? "error" : "success"}
                     size="small"
                     variant="outlined"
                 />
