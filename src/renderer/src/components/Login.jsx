@@ -19,22 +19,33 @@ function Login() {
   };
 
   return (
-    <Box
-      sx={{
-        width: 350,
-        margin: 'auto',
-        marginTop: 10,
-      }}
-    >
-      <Paper elevation={3} sx={{ padding: 4 }}>
-        <Typography variant="h5" mb={3} textAlign="center" fontWeight="bold">
-          Login
-        </Typography>
-
-        <form
-          onSubmit={(e) => {
-            e.preventDefault(); // hindari reload halaman
-            handleLogin();
+    // Container utama dengan background gradient
+    <Grid container component="main" sx={{ height: '85vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      {/* Sisi Kiri: Kolom untuk visual/branding */}
+      <Grid
+        item
+        xs={false} // tidak tampil di layar extra-small
+        sm={4}
+        md={7}
+        sx={{
+          backgroundImage: 'url(https://source.unsplash.com/random?groceries)', // Gambar random dari Unsplash bertema groceries
+          backgroundRepeat: 'no-repeat',
+          backgroundColor: (t) =>
+            t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      />
+      
+      {/* Sisi Kanan: Kolom untuk Form Login */}
+      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Box
+          sx={{
+            my: 8, // margin atas dan bawah
+            mx: 4, // margin kiri dan kanan
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
           }}
         >
           {/* Avatar dengan Icon Gembok */}
