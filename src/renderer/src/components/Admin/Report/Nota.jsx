@@ -89,7 +89,7 @@ export default function NotaReport () {
       </div>
 
       <div className="report-footer">
-        Toko Kelontong Maju Jaya
+        Toko Kelontong Keluarga
       </div>
     </div>
   );
