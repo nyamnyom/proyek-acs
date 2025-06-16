@@ -99,7 +99,9 @@ export default function CreateOrderKasir() {
     
     setLoading(true);
     try {
+      console.log(keranjang);
       const jsonKeranjang = keranjang.map(item => ({
+        id:item.id,
         nama_barang: item.nama,
         harga_barang: item.harga,
         jumlah_barang: item.qty,
@@ -112,6 +114,7 @@ export default function CreateOrderKasir() {
         const updatedBarangList = barangList.map(b => {
           const itemKeranjang = keranjang.find(k => k.id === b.id);
           if (itemKeranjang) {
+            console.log(itemKeranjang.qty)
             return { ...b, stok: b.stok - itemKeranjang.qty };
           }
           return b;
