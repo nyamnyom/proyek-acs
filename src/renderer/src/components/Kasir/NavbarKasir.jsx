@@ -225,7 +225,7 @@ export default function NavbarKasir() {
         </List>
 
         {/* Bottom Section */}
-        <Box sx={{ mt: 'auto', p: 2 }}>
+        <Box sx={{ mt: 'auto', p: 1 }}>
           <Box
             sx={{
               background: 'linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(46, 125, 50, 0.1) 100%)',
@@ -235,21 +235,7 @@ export default function NavbarKasir() {
               border: '1px solid rgba(76, 175, 80, 0.2)',
             }}
           >
-            <Typography variant="body2" sx={{ color: '#2e7d32', fontWeight: 600, mb: 1 }}>
-              Shift Status
-            </Typography>
-            <Chip
-              label="Active Shift"
-              size="small"
-              sx={{
-                backgroundColor: 'rgba(76, 175, 80, 0.15)',
-                color: '#2e7d32',
-                border: '1px solid rgba(76, 175, 80, 0.3)',
-                fontSize: '0.7rem',
-                fontWeight: 600,
-              }}
-            />
-            <Typography variant="caption" sx={{ display: 'block', mt: 1, color: '#666' }}>
+            <Typography variant="caption" sx={{ display: 'block', color: '#666' }}>
               Shift: 08:00 - 17:00
             </Typography>
           </Box>

@@ -208,9 +208,9 @@ export default function dashboard(props){
                 <Grid item xs={12} md={6} sx={{ height: '80%', width:'400px' }}>
                   <Card sx={{
                     ...cardStyles,
-                    height: '100%',
+                    height: '200%',
                   }}>
-                    <CardContent sx={{ p: 2, height: '100%', display: 'flex', flexDirection: 'column' }}>
+                    <CardContent sx={{ p: 2, height: '200%', display: 'flex', flexDirection: 'column' }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                         <Avatar
                           sx={{

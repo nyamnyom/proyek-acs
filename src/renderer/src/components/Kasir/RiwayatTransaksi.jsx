@@ -25,11 +25,6 @@ export default function RiwayatTransaksi() {
     console.log('Edit nota:', row);
   };
 
-  const handleDelete = (idNota) => {
-    // Implementasi delete jika diperlukan
-    console.log('Delete nota:', idNota);
-  };
-
   const columns = [
     { field: "id_htrans", headerName: "ID Nota", flex: 1 },
     { 
@@ -59,14 +54,6 @@ export default function RiwayatTransaksi() {
             onClick={() => handleEdit(params.row)}
           >
             Edit
-          </Button>
-          <Button
-            variant="contained"
-            color="error"
-            size="small"
-            onClick={() => handleDelete(params.row.id_htrans)}
-          >
-            Delete
           </Button>
         </Stack>
       ),
