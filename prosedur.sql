@@ -442,6 +442,7 @@ CREATE PROCEDURE create_nota (
 BEGIN
   DECLARE notaId VARCHAR(12);
   DECLARE i INT DEFAULT 0;
+  DECLARE item_id INT;
   DECLARE items_length INT;
   DECLARE item_nama VARCHAR(100);
   DECLARE item_harga DECIMAL(10,2);
@@ -460,6 +461,7 @@ BEGIN
 
   -- Loop setiap item dalam JSON
   WHILE i < items_length DO
+	SET item_id = JSON_EXTRACT(p_json_items, CONCAT('$[', i, '].id'));
 	SET item_nama = JSON_UNQUOTE(JSON_EXTRACT(p_json_items, CONCAT('$[', i, '].nama_barang')));
 	SET item_harga = CAST(JSON_EXTRACT(p_json_items, CONCAT('$[', i, '].harga_barang')) AS DECIMAL(10,2));
 	SET item_jumlah = CAST(JSON_EXTRACT(p_json_items, CONCAT('$[', i, '].jumlah_barang')) AS UNSIGNED);
@@ -471,6 +473,9 @@ BEGIN
     ) VALUES (
       notaId, item_nama, item_harga, item_jumlah, item_total
     );
+    
+    -- Kurangi stok barang
+    UPDATE barang SET stok = stok - item_jumlah WHERE id_barang = item_id;
 
     SET i = i + 1;
   END WHILE;

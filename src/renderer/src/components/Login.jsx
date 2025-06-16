@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, TextField, Typography, Paper } from '@mui/material';
+import { Box, Button, TextField, Typography, Paper, Grid, Avatar, Link } from '@mui/material';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'; // Icon untuk judul
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -36,37 +37,53 @@ function Login() {
             handleLogin();
           }}
         >
-          <TextField
-            label="Username"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
+          {/* Avatar dengan Icon Gembok */}
+          <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5" fontWeight="bold">
+            Selamat Datang!
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Masuk untuk melanjutkan ke Toko Kelontong Anda
+          </Typography>
 
-          <TextField
-            label="Password"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          {/* Form Login */}
+          <Box component="form" noValidate onSubmit={(e) => { e.preventDefault(); handleLogin(); }} sx={{ mt: 3, width: '100%' }}>
+            <TextField
+              label="Username"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              autoFocus // Langsung fokus ke input ini
+            />
 
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth
-            type="submit" // tombol akan ikut trigger saat tekan Enter
-            sx={{ mt: 3 }}
-          >
-            Login
-          </Button>
-        </form>
-      </Paper>
-    </Box>
+            <TextField
+              label="Password"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+
+            {/* Tombol Login yang lebih menonjol */}
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              type="submit"
+              sx={{ mt: 3, mb: 2, padding: '12px', fontWeight: 'bold' }}
+            >
+              Login
+            </Button>
+          </Box>
+        </Box>
+      </Grid>
+    </Grid>
   );
 }
 
