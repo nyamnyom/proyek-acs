@@ -81,7 +81,7 @@ export default function CreateOrder() {
       hargaTotal: totalHarga
     });
 
-    const { orderId } = data;
+    const { orderId } = data.orderId;
 
     const updatedBarangList = barangList.map(b => {
       const itemKeranjang = keranjang.find(k => k.id === b.id);

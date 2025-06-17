@@ -123,10 +123,10 @@ export default function CreateOrderKasir() {
         
         // Reset form
         setKeranjang([]);
-
+        console.log(result);
         Swal.fire({
           title: 'Order Berhasil Dibuat!',
-          text: `ID Order: ${result.orderId}`,
+          text: `ID Nota: ${result.notaId}`,
           icon: 'success',
           confirmButtonText: 'OK'
         });

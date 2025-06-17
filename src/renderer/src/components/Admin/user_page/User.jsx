@@ -15,6 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
+import Swal from "sweetalert2";
 
 
 export default function user(props){
@@ -63,43 +64,95 @@ export default function user(props){
         event.preventDefault();
 
         if (id == "") {
-            const result = await window.api.insertUser(
-              username,
-              password,
-              status,
-            );
-      
-            if (result.success) {
-              alert("User added successfully");
-              setId("");
-              setUsername('');
-              setPassword('');
-              setStatus('');
-              fetchUserData();
-            } else {
-              alert(`Error: ${result.message}`);
+            let cek = true;
+            users.forEach(u => {
+              if (u.username == username && u.status == status){
+                cek = false;
+              }
+            });
+            if (cek){
+              const result = await window.api.insertUser(
+                username,
+                password,
+                status,
+              );
+        
+              if (result.success) {
+                Swal.fire({
+                  title: 'Sukses membuat user!',
+                  text: `User ${username} berhasil dibuat`,
+                  icon: 'success',
+                  confirmButtonText: 'OK'
+                });
+                setId("");
+                setUsername('');
+                setPassword('');
+                setStatus('');
+                fetchUserData();
+              } else {
+                Swal.fire({
+                  title: 'Gagal membuat user!',
+                  text: `Error: ${result.message}`,
+                  icon: 'error',
+                  confirmButtonText: 'OK'
+                });
+              }
+            }
+            else{
+              Swal.fire({
+                  title: 'Gagal membuat user!',
+                  text: `Error: Username telah diambil`,
+                  icon: 'error',
+                  confirmButtonText: 'OK'
+                });
             }
         } else {
-            const result = await window.api.editUser(
-              id,
-              username,
-              password,
-              status,
-            );
-            if (result.success) {
-              alert("User edited ");
-              setId("");
-              setUsername('');
-              setPassword('');
-              setStatus('');
-              fetchUserData();
-            } else {
-              setId("");
-              setUsername('');
-              setPassword('');
-              setStatus('');
-              fetchUserData();
-              alert(`Error: ${result.message}`);
+            let cek = true;
+            users.forEach(u => {
+              if (u.username == username && u.status == status){
+                cek = false;
+              }
+            });
+            if (cek){
+              const result = await window.api.editUser(
+                id,
+                username,
+                password,
+                status,
+              );
+              if (result.success) {
+                Swal.fire({
+                  title: 'Sukses mengedit user!',
+                  text: `User ${username} berhasil diedit`,
+                  icon: 'success',
+                  confirmButtonText: 'OK'
+                });
+                setId("");
+                setUsername('');
+                setPassword('');
+                setStatus('');
+                fetchUserData();
+              } else {
+                setId("");
+                setUsername('');
+                setPassword('');
+                setStatus('');
+                fetchUserData();
+                Swal.fire({
+                  title: 'Gagal mengedit user!',
+                  text: `Error: ${result.message}`,
+                  icon: 'error',
+                  confirmButtonText: 'OK'
+                });
+              }
+            }
+            else{
+              Swal.fire({
+                  title: 'Gagal mengedit user!',
+                  text: `Error: Username telah diambil`,
+                  icon: 'error',
+                  confirmButtonText: 'OK'
+                });
             }
         } 
     };

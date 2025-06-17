@@ -37,7 +37,6 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import StoreIcon from '@mui/icons-material/Store';
 
 const drawerWidth = 260;
-const options = ['History Order', 'History Kirim', 'History Nota'];
 
 export default function main() {
   const [page, setPage] = useState("dashboard");
