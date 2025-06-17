@@ -70,8 +70,8 @@ export default function dashboard(props){
     
     const calculateStats = (orders) => {
         const totalProduk = orders.length;
-        const totalTransaksi = orders.reduce((acc, item) => acc + item.sold, 0);
-        console.log(totalProduk, totalTransaksi)
+        const totalTransaksi = orders.reduce((acc, item) => acc + Number(item.sold || 0), 0);
+        console.log(totalProduk, totalTransaksi);
         return { totalProduk, totalTransaksi };
     };
 
