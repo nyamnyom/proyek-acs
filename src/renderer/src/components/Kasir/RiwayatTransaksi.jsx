@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, Container, Stack, Toolbar, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import NavbarKasir from './NavbarKasir';
 import { DataGrid } from '@mui/x-data-grid';
 
 export default function RiwayatTransaksi() {
   const [nota, setNota] = useState([]);
+  const navigate = useNavigate();
       
   useEffect(() => {
     fetchNota();
@@ -24,6 +26,11 @@ export default function RiwayatTransaksi() {
     // Implementasi edit jika diperlukan
     console.log('Edit nota:', row);
   };
+  
+  // Fungsi untuk navigasi ke halaman detail nota
+  const viewdetail = (idNota) => {
+    navigate(`/kasir/detail-nota/${idNota}`);
+  };
 
   const columns = [
     { field: "id_htrans", headerName: "ID Nota", flex: 1 },
@@ -41,19 +48,42 @@ export default function RiwayatTransaksi() {
       }
     },
     {
+      field: "created_at",
+      headerName: "Tanggal Transaksi",
+      flex: 1,
+      valueFormatter: (value) => {
+        if (value == null) return '';
+        return new Date(value).toLocaleDateString('id-ID', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+      }
+    },
+    {
       field: "actions",
       headerName: "Actions",
       flex: 1,
       sortable: false,
       renderCell: (params) => (
         <Stack direction="row" spacing={2}>
-          <Button
+          {/* <Button
             variant="contained"
             color="warning"
             size="small"
             onClick={() => handleEdit(params.row)}
           >
             Edit
+          </Button> */}
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            onClick={() => viewdetail(params.row.id_htrans)}
+          >
+            View Detail
           </Button>
         </Stack>
       ),
