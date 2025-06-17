@@ -15,7 +15,8 @@ import {
   Typography,
 } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
-import Swal from "sweetalert2";
+import { Title } from "@mui/icons-material";
+import Swal from 'sweetalert2';
 
 
 export default function user(props){
@@ -54,9 +55,8 @@ export default function user(props){
       const result = await window.api.deleteUser(item_id);
       if (result.success) {
         Swal.fire({
-          title: 'Sukses menghapus user!',
-          text: `User berhasil dihapus`,
           icon: 'success',
+          text: 'User deleted successfully',
           confirmButtonText: 'OK'
         });
         fetchUserData();
