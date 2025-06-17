@@ -33,12 +33,6 @@ export default function dashboard(props){
     //Data Tabel
     const [orders, setOrders] = useState([]);
 
-    //Data Form
-    const [id, setId] = useState("");
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [status, setStatus] = useState("");
-
     useEffect(() => {
       fetchOrderDetailData();
     }, []);
@@ -71,6 +65,8 @@ export default function dashboard(props){
       ...item,
       color: stringToColor(item.nama_barang) 
     }));
+
+    const filteredProducts = topProductsWithColor.filter(item => item.sold >= 1);
     
     const calculateStats = (orders) => {
         const totalProduk = orders.length;
@@ -172,12 +168,12 @@ export default function dashboard(props){
                   </Card>
                 </Grid>
 
-                <Grid item xs={12} md={6} sx={{ height: '30%' }}>
+                <Grid item xs={12} md={6} sx={{ maxHeight: 200 }}>
                   <Card sx={{
                     ...cardStyles,
                     background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
                     color: 'white',
-                    height: '85%',
+                    height: '70%',
                   }}>
                     <CardContent sx={{ p: 2, height: '90%', display: 'flex', alignItems: 'center' }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
@@ -208,9 +204,8 @@ export default function dashboard(props){
                 <Grid item xs={12} md={6} sx={{ height: '80%', width:'400px' }}>
                   <Card sx={{
                     ...cardStyles,
-                    height: '200%',
                   }}>
-                    <CardContent sx={{ p: 2, height: '200%', display: 'flex', flexDirection: 'column' }}>
+                    <CardContent sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                         <Avatar
                           sx={{
@@ -228,7 +223,7 @@ export default function dashboard(props){
                       </Box>
                       
                       <Box sx={{ flex: 1, overflowY: 'auto', pr: 1 }}>
-                        {orders.slice(0, 8).map((product, index) => (
+                        {orders.map((product, index) => (
                           <Box 
                             key={index} 
                             sx={{
@@ -291,7 +286,7 @@ export default function dashboard(props){
                       <ResponsiveContainer width="100%" height={200}>
                         <PieChart>
                           <Pie
-                            data={topProductsWithColor}
+                            data={filteredProducts}
                             dataKey="sold"
                             nameKey="nama_barang"
                             cx="50%"
@@ -299,7 +294,7 @@ export default function dashboard(props){
                             outerRadius={60}
                             label
                           >
-                            {topProductsWithColor.map((entry, index) => (
+                            {filteredProducts.map((entry, index) => (
                               <Cell key={`cell-${index}`} fill={entry.color} />
                             ))}
                           </Pie>
