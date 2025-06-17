@@ -269,10 +269,16 @@ DROP PROCEDURE IF EXISTS get_all_order_detail;
 DELIMITER //
 CREATE PROCEDURE get_all_order_detail()
 BEGIN
-  SELECT b.nama_barang, COALESCE(o.jumlah_barang, 0) AS sold
+  SELECT b.nama_barang, CAST(COALESCE(SUM(penjualan.jumlah_barang), 0) AS UNSIGNED) AS sold
   FROM barang b
-  LEFT JOIN order_detail o ON o.nama_barang = b.nama_barang
-  ORDER BY o.jumlah_barang DESC;
+  LEFT JOIN (
+    SELECT nama_barang, jumlah_barang FROM detail_nota
+    UNION ALL
+    SELECT nama_barang, jumlah_barang FROM order_detail
+  ) AS penjualan
+  ON penjualan.nama_barang = b.nama_barang
+  GROUP BY b.nama_barang
+  ORDER BY sold DESC;
 END//
 DELIMITER ;
 
