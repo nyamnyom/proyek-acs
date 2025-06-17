@@ -134,7 +134,7 @@ export default function dashboard(props){
               </Typography>
             </Box>
 
-            <Grid container spacing={2} sx={{ height: 'calc(100% - 100px)' }}>
+            <Grid container spacing={3} sx={{  p: 1 }}>
                 {/* Compact Statistics Cards */}
                 <Grid item xs={12} md={6} sx={{ maxHeight: 200 }}>
                   <Card sx={{
@@ -201,11 +201,11 @@ export default function dashboard(props){
                 </Grid>
 
                 {/* Compact Top Products */}
-                <Grid item xs={12} md={6} sx={{ height: '80%', width:'400px' }}>
+                <Grid item xs={12} md={6} >
                   <Card sx={{
-                    ...cardStyles,
+                    ...cardStyles
                   }}>
-                    <CardContent sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                    <CardContent sx={{ p: 2, display: 'flex', flexDirection: 'column', height: '100%' }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                         <Avatar
                           sx={{
@@ -278,12 +278,12 @@ export default function dashboard(props){
                     
                 {/* piechart */}
                 <Grid item xs={12} md={3}>
-                  <Card sx={{ borderRadius: 3, boxShadow: 3, height: 300 }}>
+                  <Card sx={{ ...cardStyles, height: 300 }}>
                     <CardContent sx={{ height: '100%' }}>
                       <Typography variant="h5" gutterBottom>
                         Distribusi Penjualan
                       </Typography>
-                      <ResponsiveContainer width="100%" height={200}>
+                      <ResponsiveContainer width="100%" height={220}>
                         <PieChart>
                           <Pie
                             data={filteredProducts}
