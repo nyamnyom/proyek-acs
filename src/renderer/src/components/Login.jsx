@@ -1,21 +1,35 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, TextField, Typography, Paper, Grid, Avatar, Link } from '@mui/material';
+import { Box, Button, TextField, Typography, Paper, Grid, Avatar, Link, CircularProgress } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'; // Icon untuk judul
+import Swal from 'sweetalert2';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(false);
+
   const handleLogin = async () => {
-    const result = await window.api.loginUser(username, password);
-    if (result) {
-      const role = result.status.toLowerCase(); // admin, kasir, pengiriman
-      navigate(`/${role}`);
-    } else {
-      alert('Login gagal. Cek username/password.');
+    setLoading(true);
+    try{
+      const result = await window.api.loginUser(username, password);
+      if (result) {
+        const role = result.status.toLowerCase(); // admin, kasir, pengiriman
+        navigate(`/${role}`);
+      } else {
+        Swal.fire({
+          title: 'Gagal login!',
+          text: 'Silahkan cek kembali username / password',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+      }
+    } catch (err) {
+      console.error(err);
     }
+    setLoading(false);
   };
 
   return (
@@ -88,8 +102,10 @@ function Login() {
               fullWidth
               type="submit"
               sx={{ mt: 3, mb: 2, padding: '12px', fontWeight: 'bold' }}
+              disabled={loading}
+              startIcon={loading && <CircularProgress size={20} />}
             >
-              Login
+              {loading ? "Loading..." : "Submit"}
             </Button>
           </Box>
         </Box>

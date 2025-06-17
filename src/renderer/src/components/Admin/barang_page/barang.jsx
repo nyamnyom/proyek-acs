@@ -15,6 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
+import Swal from "sweetalert2";
 
 
 export default function barang(){
@@ -53,10 +54,20 @@ export default function barang(){
       console.log("Deleting ID:", item_id);
       const result = await window.api.deleteBarang(item_id);
       if (result.success) {
-        alert("Barang deleted successfully");
+        Swal.fire({
+          title: 'Sukses menghapus barang!',
+          text: `barang berhasil dihapus`,
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
         fetchBarangData();
       } else {
-        alert(`Error: ${result.message}`);
+        Swal.fire({
+          title: 'Gagal menghapus barang!',
+          text: `Error: ${result.message}`,
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
       }
     }
 
@@ -71,14 +82,24 @@ export default function barang(){
             );
       
             if (result.success) {
-              alert("Barang added successfully");
+              Swal.fire({
+                title: 'Sukses menambah barang!',
+                text: `barang ${namaBarang} berhasil ditambah`,
+                icon: 'success',
+                confirmButtonText: 'OK'
+              });
               setId("");
               setNamaBarang('');
               setHarga('');
               setStok('');
               fetchBarangData();
             } else {
-              alert(`Error: ${result.message}`);
+              Swal.fire({
+                title: 'Gagal menambah barang!',
+                text: `Error: ${result.message}`,
+                icon: 'error',
+                confirmButtonText: 'OK'
+              });
             }
         } else {
             const result = await window.api.editBarang(
@@ -87,7 +108,12 @@ export default function barang(){
               id
             );
             if (result.success) {
-              alert("Barang edited ");
+              Swal.fire({
+                title: 'Sukses mengedit barang!',
+                text: `Barang ${username} berhasil diedit`,
+                icon: 'success',
+                confirmButtonText: 'OK'
+              });
               setId("");
               setNamaBarang('');
               setHarga('');
@@ -99,7 +125,12 @@ export default function barang(){
               setHarga('');
               setStok('');
               fetchBarangData();
-              alert(`Error: ${result.message}`);
+              Swal.fire({
+                title: 'Gagal mengedit barang!',
+                text: `Error: ${result.message}`,
+                icon: 'error',
+                confirmButtonText: 'OK'
+              });
             }
         } 
     };

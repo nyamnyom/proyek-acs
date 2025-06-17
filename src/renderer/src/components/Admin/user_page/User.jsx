@@ -53,10 +53,20 @@ export default function user(props){
     async function handleDelete(item_id) { //trouble karena beda id
       const result = await window.api.deleteUser(item_id);
       if (result.success) {
-        alert("User deleted successfully");
+        Swal.fire({
+          title: 'Sukses menghapus user!',
+          text: `User berhasil dihapus`,
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
         fetchUserData();
       } else {
-        alert(`Error: ${result.message}`);
+        Swal.fire({
+          title: 'Gagal menghapus user!',
+          text: `Error: ${result.message}`,
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
       }
     }
 

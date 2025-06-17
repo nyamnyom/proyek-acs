@@ -2,9 +2,10 @@ import mysql from 'mysql2/promise';
 
 // Buat koneksi pool ke database MySQL
 const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: '',      
+  host: '147.185.221.24',
+  port: '20174',
+  user: 'userplayit',
+  password: 'passwordku',      
   database: 'proyek-acs',
   multipleStatements: true 
 });

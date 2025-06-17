@@ -32,7 +32,7 @@ export default function HistoryPengiriman() {
         { field: "harga_total", headerName: "Total Pembelian", type: 'number', flex: 1 },
         {
             field: "status",
-            headerName: "Status Pembayaran",
+            headerName: "Status Pengiriman",
             flex: 1,
             renderCell: (params) => {
               console.log(params);
