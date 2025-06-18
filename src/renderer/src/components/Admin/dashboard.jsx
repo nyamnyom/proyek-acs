@@ -222,10 +222,10 @@ export default function dashboard(props){
                         </Typography>
                       </Box>
                       
-                      <Box sx={{ flex: 1, overflowY: 'auto', pr: 1 }}>
+                      <Box sx={{ flex: 1, overflowY: 'auto', pr: 1, maxHeight: "50vh" }}>
                         {orders.map((product, index) => (
                           <Box 
-                            key={index} 
+                            key={index}
                             sx={{
                               display: 'flex',
                               alignItems: 'center',

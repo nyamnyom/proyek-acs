@@ -11,7 +11,7 @@ import KirimOrder from './components/Pengiriman/KirimOrder';
 import EditOrder from './components/Pengiriman/EditOrder'; 
 import NotaReport, { loaderNotaReport } from './components/Admin/Report/nota';
 import OrderReport, { loaderOrderReport } from './components/Admin/Report/order';
-import PengirimanReport, { loaderPengirimanReport } from './components/Admin/Report/pengiriman';
+import PengirimanReport, { loaderPengirimanReport } from './components/Admin/Report/Pengiriman';
 import DetailNota from './components/Kasir/detailNota';
 
 function App() {
