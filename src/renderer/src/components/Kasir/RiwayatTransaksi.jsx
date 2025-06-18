@@ -22,12 +22,12 @@ export default function RiwayatTransaksi() {
     }
   }
 
-  const handleEdit = (row) => {
-    // Implementasi edit jika diperlukan
-    console.log('Edit nota:', row);
-  };
+  // const handleEdit = (row) => {
+  //   // Implementasi edit jika diperlukan
+  //   console.log('Edit nota:', row);
+  // };
   
-  // Fungsi untuk navigasi ke halaman detail nota
+  //ke halaman detail nota
   const viewdetail = (idNota) => {
     navigate(`/kasir/detail-nota/${idNota}`);
   };

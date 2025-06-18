@@ -47,7 +47,7 @@ export default function CreateOrderKasir() {
       return;
     }
 
-    // Cek apakah barang sudah ada di keranjang
+    // Cek barang sudah ada di keranjang
     const existIndex = keranjang.findIndex(k => k.id === selectedBarang.id);
     if (existIndex >= 0) {
       const newQty = keranjang[existIndex].qty + qtyNum;
@@ -67,8 +67,11 @@ export default function CreateOrderKasir() {
     setQty('');
   };
 
-  const totalHarga = keranjang.reduce((acc, cur) => acc + cur.harga * cur.qty, 0);
-
+  let totalHarga = 0;
+  keranjang.forEach(item => {
+    totalHarga += item.harga * item.qty;
+  });
+  
   const handleHapusItem = (id) => {
     setKeranjang(keranjang.filter(item => item.id !== id));
   };
@@ -172,7 +175,6 @@ export default function CreateOrderKasir() {
                 <TextField {...params} label="Pilih Barang" />
               )}
               isOptionEqualToValue={(option, value) => option.id === value.id}
-              clearOnEscape
             />
 
             <TextField
