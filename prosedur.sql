@@ -318,8 +318,9 @@ DROP PROCEDURE IF EXISTS get_all_pengiriman;
 DELIMITER //
 CREATE PROCEDURE get_all_pengiriman()
 BEGIN
-  SELECT p.*, o.* FROM pengiriman p
-  JOIN `order` o ON o.id = p.id_order;
+  SELECT p.id_pengiriman, p.id_order, p.nama_pengirim, o.* FROM pengiriman p
+  JOIN `order` o ON o.id = p.id_order
+  ORDER BY o.updated_at DESC;
 END//
 DELIMITER ;
 

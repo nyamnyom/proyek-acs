@@ -26,6 +26,18 @@ export default function HistoryNota(props) {
       }
   
       const columns = [
+          { 
+              field: "created_at",
+              headerName: "Tanggal Nota",
+              flex: 1,
+              renderCell: (params) => {
+                return new Date(params.value).toLocaleDateString('id-ID', {
+                                              day: 'numeric',
+                                              month: 'long',
+                                              year: 'numeric'
+                                              })
+              }
+          },
           { field: "id_htrans", headerName: "ID Nota", flex: 1 },
           { field: "harga_total", headerName: "Total Pembelian", type: 'number', flex: 1 },
           {

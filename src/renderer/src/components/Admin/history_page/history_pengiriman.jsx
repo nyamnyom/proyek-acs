@@ -26,27 +26,22 @@ export default function HistoryPengiriman() {
     }
 
     const columns = [
+        { 
+              field: "updated_at",
+              headerName: "Tanggal Kirim",
+              flex: 1,
+              renderCell: (params) => {
+                return new Date(params.value).toLocaleDateString('id-ID', {
+                                              day: 'numeric',
+                                              month: 'long',
+                                              year: 'numeric'
+                                              })
+              }
+        },
         { field: "id_pengiriman", headerName: "ID Pengiriman", flex: 1 },
         { field: "nama_pembeli", headerName: "Nama Pembeli", flex: 1 },
         { field: "nama_pengirim", headerName: "Nama Pengirim", flex: 1 },
         { field: "harga_total", headerName: "Total Pembelian", type: 'number', flex: 1 },
-        {
-            field: "status",
-            headerName: "Status Pengiriman",
-            flex: 1,
-            renderCell: (params) => {
-              console.log(params);
-                const kirim = params.row.status == "belum";
-                return (
-                <Chip
-                    label={kirim ? "Belum Dikirim" : "Sudah Dikirim"}
-                    color={kirim ? "error" : "success"}
-                    size="small"
-                    variant="outlined"
-                />
-                );
-            },
-        },
         {
           field: "actions",
           headerName: "Actions",
