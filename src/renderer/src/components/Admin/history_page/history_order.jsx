@@ -26,6 +26,18 @@ export default function HistoryOrder() {
     }
 
     const columns = [
+        { 
+            field: "created_at",
+            headerName: "Tanggal Order",
+            flex: 1,
+            renderCell: (params) => {
+              return new Date(params.value).toLocaleDateString('id-ID', {
+                                            day: 'numeric',
+                                            month: 'long',
+                                            year: 'numeric'
+                                            })
+            }
+        },
         { field: "id", headerName: "Order ID", flex: 1 },
         { field: "nama_pembeli", headerName: "Nama Pembeli", flex: 1 },
         { field: "harga_total", headerName: "Total Pembelian", type: 'number', flex: 1 },
@@ -34,7 +46,7 @@ export default function HistoryOrder() {
             headerName: "Status Pengiriman",
             flex: 1,
             renderCell: (params) => {
-                const kirim = params.value?.toLowerCase() === "sudah";
+                const kirim = params.value?.toLowerCase() == "terkirim";
                 return (
                 <Chip
                     label={kirim ? "Sudah Terkirim" : "Belum Terkirim"}
