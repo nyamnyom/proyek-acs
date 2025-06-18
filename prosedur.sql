@@ -282,6 +282,25 @@ BEGIN
 END//
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS get_omzet_by_hari;
+DELIMITER //
+CREATE PROCEDURE get_omzet_by_hari()
+BEGIN
+  SELECT tanggal, SUM(total_harga) AS total_harian
+  FROM (
+    SELECT DATE(created_at) AS tanggal,harga_total AS total_harga
+    FROM `order`
+  
+    UNION ALL
+  
+    SELECT DATE(created_at) AS tanggal, harga_total AS total_harga
+    FROM nota
+  ) AS gabungan
+  GROUP BY tanggal
+  ORDER BY tanggal;
+END//
+DELIMITER ;
+
 DROP PROCEDURE IF EXISTS get_all_order;
 DELIMITER //
 CREATE PROCEDURE get_all_order()

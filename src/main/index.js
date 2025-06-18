@@ -21,6 +21,7 @@ import loginUser ,{  createOrder,
    createNota,
    getAllNota,
    getAllPengiriman,
+   getOmzetByHari,
    getNotaById,
    getOrderByIdAdmin,
    getPengirimanById} from './model.js';
@@ -107,6 +108,7 @@ ipcMain.handle('getAllNota', getAllNota);
 ipcMain.handle('getNotaById', getNotaById);
 ipcMain.handle('getDetailNota', getDetailNota);
 ipcMain.handle('getAllOrder', getAllOrder);
+ipcMain.handle('getOmzetByHari', getOmzetByHari);
 ipcMain.handle('getAllOrderDetail', getAllOrderDetail);
 ipcMain.handle('getOrderByIdAdmin', getOrderByIdAdmin);
 ipcMain.handle('getDetailOrder', getDetailOrder);

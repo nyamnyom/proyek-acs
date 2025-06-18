@@ -122,6 +122,10 @@ export async function getAllOrder(){
     const [[result, meta], field] = await pool.query('call get_all_order()');
     return result;
 }
+export async function getOmzetByHari(){
+    const [[result, meta], field] = await pool.query('call get_omzet_by_hari()');
+    return result;
+}
 export async function getOrderByIdAdmin(event, idOrder){
     const [[result, meta], field] = await pool.query('call get_order_by_id(?)', [idOrder]);
     return result[0];

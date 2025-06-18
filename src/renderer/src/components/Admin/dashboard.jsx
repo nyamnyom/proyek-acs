@@ -22,7 +22,7 @@ import {
   Chip,
   LinearProgress
 } from "@mui/material";
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, LineChart, CartesianGrid, CartesianAxis, XAxis, YAxis, Line, Legend} from 'recharts';
 import { DataGrid } from '@mui/x-data-grid';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -32,9 +32,11 @@ import StarIcon from '@mui/icons-material/Star';
 export default function dashboard(props){
     //Data Tabel
     const [orders, setOrders] = useState([]);
+    const [omzet, setOmzet] = useState([]);
 
     useEffect(() => {
       fetchOrderDetailData();
+      fetchOmzet();
     }, []);
 
     async function fetchOrderDetailData() {
@@ -46,6 +48,24 @@ export default function dashboard(props){
           console.error(err);
         }
     }
+
+    async function fetchOmzet() {
+        try {
+          const data = await window.api.getOmzetByHari();
+          setOmzet(data);
+          console.log(data)
+        } catch (err) {
+          console.error(err);
+        }
+    }
+
+    const data = omzet.map(item => ({
+      name: item.tanggal.toLocaleDateString("id-ID", {
+        day: "2-digit",
+        month: "short"
+      }), 
+      total_harian: parseFloat(item.total_harian)
+    }));
 
     const stringToColor = (str) => {
         let hash = 0;
@@ -75,7 +95,33 @@ export default function dashboard(props){
         return { totalProduk, totalTransaksi };
     };
 
+
+    // const pemasukan = (coba) => {
+    //   coba = omzet.find(o => o.tanggal.toLocaleDateString("id-ID", {day:"2-digit", month:"short"}) == new Date().toLocaleDateString("id-ID", {day:"2-digit", month:"short"})).total_harian
+    //   // omzet.forEach(item => {
+    //   //   console.log(new Date().toISOString().slice(0,10))
+    //   //   console.log(item.tanggal.toISOString())
+    //   //   console.log("aaa");
+
+    //   //   let tanggal= item.tanggal.toLocaleDateString("id-ID", {
+    //   //   day: "2-digit",
+    //   //   month: "short"})
+
+    //   //   let temp = new Date().toLocaleDateString("id-ID", {
+    //   //   day: "2-digit",
+    //   //   month: "short"})
+        
+    //   //   if (tanggal == temp) {
+    //   //     coba = item.total_harian
+    //   //   }
+    //   // });
+    //   return {coba};
+    // }
+
+
+
     const { totalProduk, totalTransaksi } = calculateStats(orders);
+    // const {minum} = pemasukan(coba);
 
     // Enhanced card styles
     const cardStyles = {
@@ -135,8 +181,9 @@ export default function dashboard(props){
             </Box>
 
             <Grid container spacing={3} sx={{  p: 1 }}>
+              <div >
                 {/* Compact Statistics Cards */}
-                <Grid item xs={12} md={6} sx={{ maxHeight: 200 }}>
+                <Grid item xs={12} md={12} sx={{ maxHeight: 200 }}>
                   <Card sx={{
                     ...cardStyles,
                     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
@@ -168,7 +215,7 @@ export default function dashboard(props){
                   </Card>
                 </Grid>
 
-                <Grid item xs={12} md={6} sx={{ maxHeight: 200 }}>
+                <Grid item xs={12} md={12} sx={{ maxHeight: 200, marginTop: '1vw' }}>
                   <Card sx={{
                     ...cardStyles,
                     background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
@@ -199,6 +246,39 @@ export default function dashboard(props){
                     </CardContent>
                   </Card>
                 </Grid>
+
+                <Grid item xs={12} md={12} sx={{ maxHeight: 200, marginTop: '1vw' }}>
+                  <Card sx={{
+                    ...cardStyles,
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    color: 'white',
+                    height: '70%',
+                  }}>
+                    <CardContent sx={{ p: 2, height: '90%', display: 'flex', alignItems: 'center' }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                        <Box>
+                          <Typography variant="caption" sx={{ opacity: 0.9, display: 'block' }}>
+                            Pemasukan Harian
+                          </Typography>
+                          <Typography variant="h3" sx={{ fontWeight: 700, mb: 1 }}>
+                            {omzet.find(o => o.tanggal.toLocaleDateString("id-ID", {day:"2-digit", month:"short"}) == new Date().toLocaleDateString("id-ID", {day:"2-digit", month:"short"}))?.total_harian || "-"}
+                          </Typography>
+                        </Box>
+                        <Avatar
+                          sx={{
+                            background: 'rgba(255, 255, 255, 0.2)',
+                            width: 50,
+                            height: 50,
+                            backdropFilter: 'blur(10px)',
+                          }}
+                        >
+                          <InventoryIcon sx={{ fontSize: 24 }} />
+                        </Avatar>
+                      </Box>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </div>
 
                 {/* Compact Top Products */}
                 <Grid item xs={12} md={6} >
@@ -300,6 +380,37 @@ export default function dashboard(props){
                           </Pie>
                           <Tooltip />
                         </PieChart>
+                      </ResponsiveContainer>
+                    </CardContent>
+                  </Card>
+                </Grid>
+
+                {/* linechart */}
+                <Grid item xs={12} md={3}>
+                  <Card sx={{ ...cardStyles, height: 300 }}>
+                    <CardContent sx={{ height: '100%' }}>
+                      <Typography variant="h5" gutterBottom>
+                        Distribusi Penjualan
+                      </Typography>
+                      <ResponsiveContainer width="100%" height={220}>
+                        <LineChart
+                          width={500}
+                          height={300}
+                          data={data}
+                          margin={{
+                            top: 5,
+                            right: 30,
+                            left: 20,
+                            bottom: 5,
+                          }}
+                        >
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis dataKey="name" />
+                          <YAxis />
+                          <Tooltip />
+                          <Legend />
+                          <Line type="monotone" dataKey="total_harian" stroke="#82ca9d" activeDot={{ r: 8 }} />
+                        </LineChart>
                       </ResponsiveContainer>
                     </CardContent>
                   </Card>
